@@ -1,6 +1,6 @@
-# Design Prototype Template
+# XD Dev Setup Kit
 
-A project template for Intuit Product Designers to create interactive UI prototypes powered by AI coding agents (Claude Code, Cursor, Windsurf, Copilot).
+AI-powered prototyping environment for Intuit Product Designers. Scaffold a project, write your PRD, and let Claude Code build the prototype.
 
 **No coding experience required.** Write your PRD, open Claude Code, and start building.
 
@@ -113,10 +113,10 @@ One command creates the full project — Vite + React + TypeScript, all template
 
 **Step 1: Download the template to your computer**
 
-Open Terminal and run this command. It downloads the template into a folder called `design-prototype-template`:
+Open Terminal and run this command. It downloads the template into a folder called `xd-dev-setup-kit`:
 
 ```bash
-git clone https://github.com/Basavaraj-Km-int/design-prototype-template.git
+git clone https://github.com/Basavaraj-Km-int/xd-dev-setup-kit.git
 ```
 
 **Step 2: Rename the folder to your project name**
@@ -124,15 +124,15 @@ git clone https://github.com/Basavaraj-Km-int/design-prototype-template.git
 Replace `your-project-name` with a name that describes your prototype — use **lowercase letters and dashes** (no spaces).
 
 ```bash
-mv design-prototype-template your-project-name
+mv xd-dev-setup-kit your-project-name
 ```
 
 For example:
 ```bash
-mv design-prototype-template payroll-onboarding
+mv xd-dev-setup-kit payroll-onboarding
 ```
 
-> This renames the folder from `design-prototype-template` to your project name (e.g., `payroll-onboarding`).
+> This renames the folder from `xd-dev-setup-kit` to your project name (e.g., `payroll-onboarding`).
 
 **Step 3: Go into your project folder**
 
@@ -174,7 +174,7 @@ If the scaffold script fails or you prefer to do it step by step:
 
 **Step 1: Create your repo from the template**
 
-1. Go to this repo on GitHub: [design-prototype-template](https://github.com/Basavaraj-Km-int/design-prototype-template)
+1. Go to this repo on GitHub: [xd-dev-setup-kit](https://github.com/Basavaraj-Km-int/xd-dev-setup-kit)
 2. Click the green **"Use this template"** button (top right)
 3. Click **"Create a new repository"**
 4. Fill in:
