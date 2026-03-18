@@ -66,27 +66,34 @@ echo "📚 Cloning Intuit Design System (IDS) for component reference..."
 echo "   This requires authentication with github.intuit.com"
 echo ""
 
-if git clone --depth 1 "$IDS_REPO" "$IDS_DIR" 2>/dev/null; then
-  echo "✅ IDS cloned to $IDS_DIR/"
+IDS_REPO_SSH="git@github.intuit.com:design-systems/ids-web.git"
+
+if git clone --depth 1 "$IDS_REPO_SSH" "$IDS_DIR" 2>/dev/null; then
+  echo "✅ IDS cloned via SSH to $IDS_DIR/"
+  echo "" >> .gitignore
+  echo "# IDS design system clone (local reference only, do not commit)" >> .gitignore
+  echo "int-design-system/" >> .gitignore
+elif git clone --depth 1 "$IDS_REPO" "$IDS_DIR" 2>/dev/null; then
+  echo "✅ IDS cloned via HTTPS to $IDS_DIR/"
   echo "" >> .gitignore
   echo "# IDS design system clone (local reference only, do not commit)" >> .gitignore
   echo "int-design-system/" >> .gitignore
 else
   echo ""
-  echo "⚠️  Could not clone IDS. This is likely an authentication issue."
+  echo "⚠️  Could not clone IDS. Try one of these manually:"
   echo ""
-  echo "   To fix, run ONE of these and then clone manually:"
+  echo "   Option 1 — SSH (if you have SSH keys set up):"
+  echo "     git clone --depth 1 git@github.intuit.com:design-systems/ids-web.git int-design-system"
   echo ""
-  echo "   Option 1 (recommended):"
-  echo "     gh auth login --hostname github.intuit.com"
-  echo ""
-  echo "   Option 2 (manual):"
+  echo "   Option 2 — Personal Access Token:"
   echo "     1. Go to github.intuit.com/settings/tokens"
   echo "     2. Generate a token with 'repo' scope"
-  echo "     3. Run: git clone https://YOUR_TOKEN@github.intuit.com/design-systems/ids-web.git int-design-system"
+  echo "     3. Run: git clone --depth 1 https://YOUR_TOKEN@github.intuit.com/design-systems/ids-web.git int-design-system"
   echo ""
-  echo "   Continuing without IDS clone — the prototype will still work,"
-  echo "   but Claude Code won't be able to read component docs locally."
+  echo "   Option 3 — Symlink an existing IDS clone:"
+  echo "     ln -s /path/to/your/ids-web int-design-system"
+  echo ""
+  echo "   Continuing without IDS — Claude Code won't have local component docs."
   echo ""
 fi
 
