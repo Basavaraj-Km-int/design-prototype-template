@@ -16,15 +16,23 @@ You only need to do this once on your Mac. After that, every new project takes 2
 
 **1. Node.js 18+**
 
-Check: `node --version` — if you see a version number (e.g., `v22.x.x`), you're good.
+Run in Terminal:
+```bash
+node --version
+```
+If you see a version number (e.g., `v22.x.x`) — you're good, skip to the next tool.
 
-If not installed: [Download from nodejs.org](https://nodejs.org/) — click the **LTS** button, run the installer.
+If you see "command not found" — install it: [Download from nodejs.org](https://nodejs.org/) — click the **LTS** button, run the installer. Then close and reopen Terminal.
 
 **2. Git**
 
-Check: `git --version` — if you see a version number, you're good.
+Run in Terminal:
+```bash
+git --version
+```
+If you see a version number (e.g., `git version 2.x.x`) — you're good, skip to the next tool.
 
-If not installed, run in Terminal:
+If you see "command not found" — run in Terminal:
 ```bash
 xcode-select --install
 ```
@@ -32,9 +40,13 @@ A popup appears — click **"Install"** and wait for it to finish.
 
 **3. GitHub CLI**
 
-Check: `gh --version`
+Run in Terminal:
+```bash
+gh --version
+```
+If you see a version number — you're good, skip to the next tool.
 
-If not installed, run in Terminal:
+If you see "command not found" — run in Terminal:
 ```bash
 brew install gh
 ```
@@ -44,9 +56,13 @@ Or [download from cli.github.com](https://cli.github.com/).
 
 **4. Claude Code**
 
-Check: `claude --version`
+Run in Terminal:
+```bash
+claude --version
+```
+If you see a version number — you're good.
 
-If not installed, run in Terminal:
+If you see "command not found" — run in Terminal:
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
