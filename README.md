@@ -193,8 +193,38 @@ The CLAUDE.md / agents.md files teach the AI agent to:
 
 ### Optional
 
-- **IDS Design System** clone at `int-design-system/` for component reference
 - **Figma MCP** configured in Claude Code for design-to-code workflows
+
+---
+
+## GitHub Enterprise Authentication (One-Time Setup)
+
+The scaffold script clones the IDS design system from `github.intuit.com`. You need to authenticate first.
+
+### Option 1: GitHub CLI (Recommended)
+
+```bash
+gh auth login --hostname github.intuit.com
+```
+
+Follow the prompts to authenticate via browser.
+
+### Option 2: Personal Access Token
+
+1. Go to `github.intuit.com/settings/tokens`
+2. Generate a token with `repo` scope
+3. When prompted for password during clone, paste the token
+
+### Manual IDS Clone (If Scaffold Skipped It)
+
+If the scaffold couldn't clone IDS due to auth issues, clone it manually after authenticating:
+
+```bash
+cd my-prototype-name
+git clone --depth 1 https://github.intuit.com/design-systems/ids-web.git int-design-system
+```
+
+The `--depth 1` flag keeps the clone fast (only latest commit, no full history).
 
 ---
 
