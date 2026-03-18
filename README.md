@@ -268,6 +268,24 @@ Claude Code will:
 
 Claude Code can deploy to Vercel or similar services for a shareable URL.
 
+### Share via GitHub Pages (Free)
+
+Host your prototype as a live website on GitHub — anyone with the link can view it.
+
+1. Ask Claude Code: "Build the prototype and deploy to GitHub Pages"
+2. Or do it manually:
+   ```bash
+   npm run build
+   ```
+3. Go to your repo on GitHub (e.g., `github.com/YOUR-USERNAME/your-project-name`)
+4. Click **Settings** (tab at the top)
+5. Click **Pages** (left sidebar)
+6. Under **"Build and deployment"**, set **Source** to **"GitHub Actions"**
+7. Your prototype will be live at: `https://YOUR-USERNAME.github.io/your-project-name/`
+8. Share this URL with your team — no login required, works on any device
+
+> **Tip:** Every time you `git push`, GitHub Pages automatically rebuilds and updates the live site.
+
 ### Share via screen recording
 
 Record yourself walking through the prototype and share the video with your team.
