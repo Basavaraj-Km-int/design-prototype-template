@@ -23,27 +23,13 @@ You only need to do this once on your Mac. After that, every new project takes 2
 
 ### Step 2: Log in to GitHub (one-time)
 
-Open Terminal and run these two commands. Each one opens a browser window where you log in.
+Open Terminal and run:
 
 ```bash
-# Log in to public GitHub (where this template lives)
 gh auth login
 ```
-A browser opens → click "Authorize" → come back to Terminal.
 
-```bash
-# Log in to Intuit GitHub (where the design system lives)
-gh auth login --hostname github.intuit.com
-```
-A browser opens → log in with your Intuit credentials → click "Authorize" → come back to Terminal.
-
-**If the `gh` command doesn't work**, you can create a token manually:
-1. Open [github.intuit.com/settings/tokens](https://github.intuit.com/settings/tokens) in your browser
-2. Click **"Generate new token (classic)"**
-3. Give it a name like "design-prototypes"
-4. Check the **`repo`** checkbox
-5. Click **"Generate token"** at the bottom
-6. Copy the token (you'll need it when cloning — paste it when asked for a password)
+A browser opens → click "Authorize" → come back to Terminal. That's it.
 
 ---
 
