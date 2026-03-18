@@ -218,21 +218,21 @@ git clone --depth 1 https://github.intuit.com/design-systems/ids-web.git int-des
 
 ### Step 1: Open the project in VS Code
 
-From Terminal, make sure you're in your project folder. For example:
+**Option A: Open from VS Code directly (no Terminal needed)**
+
+1. Open VS Code
+2. Click **File > Open Folder...** (or press `Cmd + O`)
+3. Navigate to your project folder (e.g., `payroll-onboarding`), select it, and click **Open**
+4. You'll see the folder structure in the left sidebar — `docs/`, `src/`, `CLAUDE.md`, etc.
+
+**Option B: Open from Terminal**
 
 ```bash
 cd payroll-onboarding
-```
-
-Then open it in VS Code:
-
-```bash
 code .
 ```
 
-This opens VS Code with your entire project. You'll see the folder structure in the left sidebar — `docs/`, `src/`, `CLAUDE.md`, etc.
-
-> **Don't have VS Code?** [Download from code.visualstudio.com](https://code.visualstudio.com/). After installing, open VS Code, press `Cmd + Shift + P`, type "shell command", and click **"Install 'code' command in PATH"** — this lets you open VS Code from Terminal.
+> **Don't have VS Code?** [Download from code.visualstudio.com](https://code.visualstudio.com/). After installing, to enable the `code` Terminal command: open VS Code, press `Cmd + Shift + P`, type "shell command", and click **"Install 'code' command in PATH"**.
 
 ### Step 2: Fill in your PRD
 
