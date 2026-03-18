@@ -69,44 +69,66 @@ A browser opens → click "Authorize" → come back to Terminal. That's it.
 
 One command creates the full project — Vite + React + TypeScript, all template files, IDS design system clone, and dependencies installed.
 
-**Step 1: Clone this template repo**
+**Step 1: Download the template to your computer**
 
-Open Terminal and run:
+Open Terminal and run this command. It downloads the template into a folder called `design-prototype-template`:
 
 ```bash
 git clone https://github.com/Basavaraj-Km-int/design-prototype-template.git
+```
+
+**Step 2: Go into the template folder**
+
+```bash
 cd design-prototype-template
 ```
 
-**Step 2: Run the scaffold script**
+**Step 3: Run the scaffold script to create your project**
 
-Replace `your-project-name` with your actual project name (use lowercase, dashes instead of spaces):
+This is where you choose your project's name. Pick a name that describes your prototype — use **lowercase letters and dashes** (no spaces).
+
+Good names: `payroll-onboarding`, `expense-tracker-redesign`, `invoice-approval-flow`
+
+Run the script with your chosen name:
 
 ```bash
 ./scaffold.sh your-project-name
 ```
 
-Example:
+For example, if you're prototyping a payroll onboarding flow:
+
 ```bash
-./scaffold.sh payroll-onboarding-prototype
+./scaffold.sh payroll-onboarding
 ```
 
-The script will:
-- Create a new React + TypeScript project
-- Copy CLAUDE.md, agents.md, PRD template, and design doc template
-- Clone the IDS design system (for component reference)
-- Install all dependencies
-- Show you the next steps
+The script creates a **new folder** with your project name (e.g., `payroll-onboarding/`) right next to the template folder. Inside it:
+- A React + TypeScript project ready to run
+- CLAUDE.md and agents.md with all the design system rules
+- Empty PRD and design doc templates for you to fill in
+- IDS design system clone (for Claude Code to reference components)
+- All dependencies installed
 
-**Step 3: Go into your new project**
+**Step 4: Go into your new project folder**
 
 ```bash
 cd your-project-name
 ```
 
-Example:
+For the example above:
+
 ```bash
-cd payroll-onboarding-prototype
+cd payroll-onboarding
+```
+
+> **Where is my project?** It's at `/Users/you/design-prototype-template/payroll-onboarding/`. You can also find it in Finder by navigating to your home folder.
+
+**Step 5 (optional): Clean up the template folder**
+
+You don't need the `design-prototype-template` folder anymore — your project is its own standalone folder now. You can keep it around for creating more projects later, or delete it:
+
+```bash
+cd ..
+rm -rf design-prototype-template
 ```
 
 **Done! Your project is ready.** Jump to [How to Use](#how-to-use) below.
