@@ -259,24 +259,45 @@ Claude Code will:
 2. Generate `docs/design.md` — customer problem statement, hypothesis, user flows, user stories
 3. **Show you the design artifacts and ask for your approval** before writing any code
 4. Build the prototype screen-by-screen using IDS components
-5. Start the dev server so you can see it in your browser
+5. Start the dev server — you'll see a message like:
+
+```
+Local: http://localhost:5173/
+```
 
 ### Step 5: Review in your browser
 
-Claude Code will start a dev server and show you a URL (usually http://localhost:5173). Open it in your browser to see the prototype.
+1. Look for the URL in Claude Code's output (usually `http://localhost:5173`)
+2. **Click the link** or copy-paste it into your browser (Chrome, Safari, Firefox — any browser works)
+3. You'll see your prototype running live — interact with it, click through the flows
+
+> **If the page is blank or shows an error**, tell Claude Code: "The page is blank, can you check what's wrong?" — it will diagnose and fix.
 
 ### Step 6: Iterate
 
-Tell Claude Code what to change in plain language:
+Tell Claude Code what to change in plain language. Be specific about what you want:
 
-- "Make the header sticky"
-- "Add a loading state to the dashboard"
-- "The delete button should ask for confirmation first"
-- "Show an empty state when there are no transactions"
-- "Make it work on mobile"
-- "The form validation should happen as I type, not when I click submit"
+**Layout and styling:**
+- "Make the header sticky so it stays at the top when I scroll"
+- "Add more spacing between the cards"
+- "The sidebar should collapse on mobile"
 
-Claude Code makes the changes and you see them instantly in the browser.
+**States and interactions:**
+- "Add a loading skeleton when the dashboard data is loading"
+- "Show an empty state with a helpful message when there are no transactions"
+- "The delete button should show a confirmation dialog before deleting"
+- "Add inline validation to the email field — show an error if it's not a valid email"
+
+**Responsive design:**
+- "Make this page work on mobile (375px wide)"
+- "On tablet, show 2 columns instead of 3"
+
+**Fixing issues:**
+- "The dropdown is hidden behind the modal, fix the z-index"
+- "The form submits when I press Enter — prevent that"
+- "The page flashes white before content loads — add a skeleton"
+
+Claude Code makes the changes and you see them instantly in the browser (the page auto-refreshes).
 
 ---
 
