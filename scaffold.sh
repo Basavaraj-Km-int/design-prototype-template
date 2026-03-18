@@ -191,6 +191,7 @@ Thumbs.db
 
 # Template files (not needed after scaffold)
 scaffold.sh
+clean-prd.sh
 GITEOF
 
 # -------------------------------------------------------------------
@@ -209,6 +210,7 @@ echo ""
 echo "Next steps:"
 echo "  1. Open in VS Code: code ."
 echo "  2. Fill in docs/PRD.md with your product requirements"
+echo "     (If you paste from Google Docs, run: ./clean-prd.sh to extract embedded images)"
 echo "  3. Run: npm run dev"
 echo "  4. Open Claude Code and start building from the PRD"
 echo ""

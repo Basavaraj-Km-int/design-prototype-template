@@ -246,6 +246,22 @@ In VS Code, click on `docs/PRD.md` in the left sidebar to open it.
 3. Select all (`Cmd + A`), copy (`Cmd + C`)
 4. In VS Code, click on `docs/PRD.md`, select all (`Cmd + A`), paste (`Cmd + V`)
 5. Save: `Cmd + S`
+6. **Important — clean up embedded images**: Google Docs exports images as huge base64 text embedded in the markdown. This bloats the file and causes issues for Claude Code. Run this in Terminal to extract images to separate files:
+
+```bash
+./clean-prd.sh
+```
+
+You'll see something like:
+```
+🖼️  Found embedded images in PRD.md — extracting...
+  Extracted image1.png
+  Extracted image2.png
+  PRD.md: 250,000 → 13,000 bytes (saved 237,000 bytes)
+✅ Done! Images saved to docs/images/
+```
+
+> If you skip this step, Claude Code may struggle to read the full PRD due to the embedded image data. Always run `./clean-prd.sh` after pasting from Google Docs.
 
 ### Step 3: Open Claude Code
 
@@ -622,6 +638,7 @@ New projects created from the template always get the latest version. Existing p
 | `docs/PRD.md` | PRD template with guided sections (or paste your own) |
 | `docs/design.md` | Design artifact template — Claude Code populates from PRD |
 | `scaffold.sh` | One-command project bootstrapping script |
+| `clean-prd.sh` | Extract embedded images from Google Docs markdown — run after pasting PRD |
 
 ---
 
