@@ -1,33 +1,34 @@
 #!/bin/bash
-# XD Dev Setup Kit — Intuit Design Prototype Scaffolding
+# XD Dev Setup Kit — Intuit Design Prototype Scaffolding (v2)
 # Usage: Clone the template, rename the folder, cd into it, then run ./scaffold.sh
 #
 # Prerequisites:
 #   - Node.js 18+ (check: node --version)
 #   - Git authenticated with github.intuit.com (see README)
+#   - ~/.npmrc configured with: registry=https://registry.npmjs.intuit.com/
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_NAME="$(basename "$SCRIPT_DIR")"
 IDS_REPO="https://github.intuit.com/design-systems/ids-web.git"
-IDS_DIR="int-design-system"
+IDS_DIR="ids-web-full"
+IDS_TOKEN_CDN="https://uxfabric.intuitcdn.net/components/design-systems/tokens/ddms3.0/prod/24.5.0/css/intuit.css"
 
-echo "🎨 Setting up: $PROJECT_NAME"
+echo "=================================================="
+echo "  XD Dev Setup Kit — Scaffolding: $PROJECT_NAME"
 echo "=================================================="
 
 # -------------------------------------------------------------------
-# Step 1: Scaffold Vite + React + TypeScript in current directory
+# Step 1: Scaffold Vite + React 18 + TypeScript
 # -------------------------------------------------------------------
 echo ""
-echo "📦 Creating React + TypeScript project..."
+echo "Step 1/7: Creating React + TypeScript project..."
 
-# Create Vite project in a temp folder, then move contents here
 TEMP_DIR="/tmp/xd-scaffold-$$"
 rm -rf "$TEMP_DIR"
 mkdir -p "$TEMP_DIR"
 
-# Vite needs to run from /tmp to avoid relative path issues
 (cd /tmp && npm create vite@latest "xd-scaffold-$$/app" -- --template react-ts)
 
 # Move Vite files into current directory (skip files we already have)
@@ -35,99 +36,168 @@ cp -n "$TEMP_DIR/app/package.json" ./package.json 2>/dev/null || true
 cp -n "$TEMP_DIR/app/tsconfig.json" ./tsconfig.json 2>/dev/null || true
 cp -n "$TEMP_DIR/app/tsconfig.app.json" ./tsconfig.app.json 2>/dev/null || true
 cp -n "$TEMP_DIR/app/tsconfig.node.json" ./tsconfig.node.json 2>/dev/null || true
-cp -n "$TEMP_DIR/app/vite.config.ts" ./vite.config.ts 2>/dev/null || true
 cp -n "$TEMP_DIR/app/eslint.config.js" ./eslint.config.js 2>/dev/null || true
 cp -n "$TEMP_DIR/app/index.html" ./index.html 2>/dev/null || true
 cp -rn "$TEMP_DIR/app/src/" ./src/ 2>/dev/null || true
 cp -rn "$TEMP_DIR/app/public/" ./public/ 2>/dev/null || true
 
-# Copy .gitignore from Vite
 if [ -f "$TEMP_DIR/app/.gitignore" ]; then
   cp "$TEMP_DIR/app/.gitignore" ./.gitignore
 fi
 
 rm -rf "$TEMP_DIR"
 
+echo "  Done."
+
 # -------------------------------------------------------------------
 # Step 2: Create project structure
 # -------------------------------------------------------------------
 echo ""
-echo "📁 Creating project structure..."
+echo "Step 2/7: Creating project structure..."
 
 mkdir -p docs
 mkdir -p src/{components,pages,layouts,hooks,mocks/data,lib,styles}
 mkdir -p public
 
+echo "  Done."
+
 # -------------------------------------------------------------------
-# Step 3: Clone IDS Design System (for component reference)
+# Step 3: Downgrade React to 18.2.0 (IDS compatibility)
 # -------------------------------------------------------------------
 echo ""
-echo "📚 Cloning Intuit Design System (IDS) for component reference..."
-echo "   This requires authentication with github.intuit.com"
+echo "Step 3/7: Installing React 18.2.0 (required for IDS compatibility)..."
+
+npm install react@18.2.0 react-dom@18.2.0 @types/react@18.2.48 @types/react-dom@18.2.18 2>/dev/null
+echo "  Done."
+
+# -------------------------------------------------------------------
+# Step 4: Install IDS packages + PostCSS + Router
+# -------------------------------------------------------------------
 echo ""
+echo "Step 4/7: Installing IDS components and dependencies..."
 
-IDS_REPO_SSH="git@github.intuit.com:design-systems/ids-web.git"
+# Core IDS components that work well with Vite
+npm install @ids-ts/button @ids-ts/badge @ids-ts/typography @ids-ts/loader 2>/dev/null
 
-if git clone --depth 1 "$IDS_REPO_SSH" "$IDS_DIR" 2>/dev/null; then
-  echo "✅ IDS cloned via SSH to $IDS_DIR/"
-  echo "" >> .gitignore
-  echo "# IDS design system clone (local reference only, do not commit)" >> .gitignore
-  echo "int-design-system/" >> .gitignore
-elif git clone --depth 1 "$IDS_REPO" "$IDS_DIR" 2>/dev/null; then
-  echo "✅ IDS cloned via HTTPS to $IDS_DIR/"
-  echo "" >> .gitignore
-  echo "# IDS design system clone (local reference only, do not commit)" >> .gitignore
-  echo "int-design-system/" >> .gitignore
-else
-  echo ""
-  echo "⚠️  Could not clone IDS. Try one of these manually:"
-  echo ""
-  echo "   Option 1 — SSH (if you have SSH keys set up):"
-  echo "     git clone --depth 1 git@github.intuit.com:design-systems/ids-web.git int-design-system"
-  echo ""
-  echo "   Option 2 — Personal Access Token:"
-  echo "     1. Go to github.intuit.com/settings/tokens"
-  echo "     2. Generate a token with 'repo' scope"
-  echo "     3. Run: git clone --depth 1 https://YOUR_TOKEN@github.intuit.com/design-systems/ids-web.git int-design-system"
-  echo ""
-  echo "   Option 3 — Symlink an existing IDS clone:"
-  echo "     ln -s /path/to/your/ids-web int-design-system"
-  echo ""
-  echo "   Continuing without IDS — Claude Code won't have local component docs."
-  echo ""
-fi
+# Routing
+npm install react-router-dom 2>/dev/null
+
+# PostCSS plugins (matches IDS build pipeline)
+npm install -D postcss-mixins@9.0.4 postcss-nested@6.0.1 postcss-simple-vars@7.0.1 2>/dev/null
+
+echo "  Done."
 
 # -------------------------------------------------------------------
-# Step 4: Create starter files
+# Step 5: Download IDS design tokens from CDN
 # -------------------------------------------------------------------
-echo "📝 Creating starter files..."
+echo ""
+echo "Step 5/7: Downloading IDS design tokens..."
 
-# Mock data example
-cat > src/mocks/data/example.json << 'MOCKEOF'
-{
-  "users": [
-    { "id": "1", "name": "Alice Johnson", "email": "alice@example.com" },
-    { "id": "2", "name": "Srinivasaraghavan Subramanian", "email": "srini@example.com" }
-  ]
+curl -s "$IDS_TOKEN_CDN" > src/styles/ids-tokens.css
+echo "  Downloaded $(wc -l < src/styles/ids-tokens.css | tr -d ' ') lines of tokens"
+
+# -------------------------------------------------------------------
+# Step 6: Create configuration files
+# -------------------------------------------------------------------
+echo ""
+echo "Step 6/7: Creating configuration files..."
+
+# Vite config with IDS optimizations
+cat > vite.config.ts << 'VITEEOF'
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    watch: {
+      ignored: ['**/ids-web-full/**', '**/int-design-system/**'],
+    },
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
+      'react-dom',
+      'react-dom/client',
+      'react-router-dom',
+      '@ids-ts/button',
+      '@ids-ts/typography',
+      '@ids-ts/badge',
+      '@ids-ts/loader',
+    ],
+  },
+})
+VITEEOF
+
+# PostCSS config (matches IDS pipeline)
+cat > postcss.config.js << 'POSTCSSEOF'
+// PostCSS config matching IDS Web component build pipeline
+export default {
+  plugins: {
+    'postcss-mixins': {},
+    'postcss-nested': {},
+    'postcss-simple-vars': {},
+  },
+};
+POSTCSSEOF
+
+# IDS component CSS imports
+cat > src/styles/ids-imports.css << 'IDSEOF'
+/* IDS Component CSS — only components whose CSS is compatible with Vite */
+@import '@ids-ts/button/dist/main.css';
+@import '@ids-ts/typography/dist/main.css';
+@import '@ids-ts/badge/dist/main.css';
+IDSEOF
+
+# IDS overrides for admin/dashboard UIs
+cat > src/styles/ids-overrides.css << 'OVEREOF'
+/* IDS Token Overrides for Admin/Dashboard Prototypes
+   CDN tokens are designed for full Intuit product pages.
+   These overrides provide appropriate scale for internal tools. */
+
+:root, [data-theme="intuit"] {
+  /* Softer elevation shadows */
+  --color-shadow: rgba(0, 0, 0, 0.06);
+  --elevation-level-0: none;
+  --elevation-level-1: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --elevation-level-2: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --elevation-level-3: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+
+  /* Softer border colors */
+  --color-container-border-secondary: #E3E5E8;
+  --color-container-border-tertiary: #ECEEF0;
+  --color-divider-primary: #E3E5E8;
+  --color-divider-secondary: #F0F2F4;
+  --color-divider-tertiary: #ECEEF0;
 }
-MOCKEOF
+OVEREOF
 
-# Global styles placeholder
+# Global styles
 cat > src/styles/global.css << 'STYLEEOF'
-/* Global styles -- use IDS design tokens */
+/* Global styles — IDS tokens loaded from ids-tokens.css */
 
-:root {
-  /* Override only if needed for prototype-specific tokens */
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   font-family: var(--font-family-component, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: var(--font-size-body-2, 0.875rem);
+  line-height: var(--line-height-body, 1.5);
+  color: var(--color-text-primary, #393A3D);
+  background: var(--color-container-background-primary, #fff);
 }
 
 /* Accessibility: respect motion preferences */
@@ -138,43 +208,83 @@ body {
   }
 }
 
-/* Skip to content link */
+/* Skip to content link (a11y) */
 .skip-to-content {
   position: absolute;
-  top: -40px;
-  left: 0;
+  top: -100%;
+  left: 16px;
+  z-index: 1000;
   padding: 8px 16px;
-  z-index: 100;
+  background: var(--color-action-standard, #0077C5);
+  color: var(--color-text-inverse, #fff);
+  border-radius: var(--radius-small, 4px);
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .skip-to-content:focus {
-  top: 0;
+  top: 16px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-focus-indicator, #0077C5);
+  outline-offset: 2px;
 }
 STYLEEOF
 
-# App.tsx starter
+# App.tsx with IDS theme wrapper
 cat > src/App.tsx << 'APPEOF'
 import './styles/global.css';
 
 function App() {
   return (
-    <main>
+    <div data-theme="intuit" data-colorscheme="light">
       <a href="#main-content" className="skip-to-content">
         Skip to content
       </a>
-      <div id="main-content">
+      <main id="main-content">
         <h1>Prototype</h1>
         <p>Read docs/PRD.md and docs/design.md to get started.</p>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 
 export default App;
 APPEOF
 
-# Add extra gitignore entries
+# main.tsx with correct CSS import order
+cat > src/main.tsx << 'MAINEOF'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './styles/ids-tokens.css'
+import './styles/ids-overrides.css'
+import './styles/ids-imports.css'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+MAINEOF
+
+# Minimal index.css
+cat > src/index.css << 'INDEXEOF'
+/* Minimal reset — main tokens are in styles/ids-tokens.css */
+#root {
+  min-height: 100vh;
+}
+INDEXEOF
+
+# Gitignore additions
 cat >> .gitignore << 'GITEOF'
+
+# IDS design system repos (local reference only)
+ids-web-full/
+int-design-system/
 
 # Design artifacts (keep in repo)
 # docs/
@@ -188,42 +298,65 @@ cat >> .gitignore << 'GITEOF'
 # OS
 .DS_Store
 Thumbs.db
-
-# Template files (not needed after scaffold)
-scaffold.sh
-clean-prd.sh
 GITEOF
 
+echo "  Done."
+
 # -------------------------------------------------------------------
-# Step 5: Install dependencies
+# Step 7: Clone IDS repo (optional, for Storybook MCP)
 # -------------------------------------------------------------------
 echo ""
-echo "📦 Installing dependencies..."
-npm install
+echo "Step 7/7: Cloning IDS Design System repo (for component reference)..."
+echo "  This requires authentication with github.intuit.com"
+echo ""
+
+if git clone --depth 1 "$IDS_REPO" "$IDS_DIR" 2>/dev/null; then
+  echo "  IDS cloned to $IDS_DIR/"
+else
+  echo ""
+  echo "  Could not clone IDS. This is likely an authentication issue."
+  echo ""
+  echo "  To fix, run ONE of these:"
+  echo ""
+  echo "    Option 1: gh auth login --hostname github.intuit.com"
+  echo "    Option 2: git clone https://YOUR_TOKEN@github.intuit.com/design-systems/ids-web.git $IDS_DIR"
+  echo ""
+  echo "  Continuing without IDS clone. The prototype will still work."
+  echo ""
+fi
 
 # -------------------------------------------------------------------
 # Done
 # -------------------------------------------------------------------
 echo ""
-echo "✅ Done! $PROJECT_NAME is ready."
+echo "=================================================="
+echo "  Setup complete: $PROJECT_NAME"
+echo "=================================================="
+echo ""
+echo "Quick start:"
+echo "  npm run dev             Start dev server (http://localhost:5173)"
+echo "  npm run build           Production build"
+echo "  npm run preview         Preview production build (fast navigation)"
 echo ""
 echo "Next steps:"
-echo "  1. Open in VS Code: code ."
-echo "  2. Fill in docs/PRD.md with your product requirements"
-echo "     (If you paste from Google Docs, run: ./clean-prd.sh to extract embedded images)"
-echo "  3. Run: npm run dev"
-echo "  4. Open Claude Code and start building from the PRD"
+echo "  1. Fill in docs/PRD.md with your product requirements"
+echo "  2. Run: npm run dev"
+echo "  3. Open Claude Code and say: 'Read the PRD and build the prototype'"
 echo ""
-echo "Useful commands:"
-echo "  npm run dev        → Start dev server"
-echo "  npm run build      → Production build"
-echo "  npm run lint       → Lint code"
+echo "IDS components available:"
+echo "  import Button from '@ids-ts/button';"
+echo "  import Badge from '@ids-ts/badge';"
+echo "  import { H4, H5, B2, B3 } from '@ids-ts/typography';"
 echo ""
-echo "To add IDS components:"
-echo "  npm install @ids-ts/button @ids-ts/text-field @ids-ts/typography"
+echo "To add more IDS components:"
+echo "  npm install @ids-ts/checkbox @ids-ts/radio @ids-ts/switch"
 echo ""
-if [ ! -d "$IDS_DIR" ]; then
-  echo "⚠️  Remember to clone IDS when you have GitHub Enterprise access:"
-  echo "  git clone --depth 1 $IDS_REPO $IDS_DIR"
+if [ -d "$IDS_DIR" ]; then
+  echo "IDS Storybook (for component reference):"
+  echo "  cd $IDS_DIR && yarn build && yarn dev"
+  echo "  Then add MCP: claude mcp add storybook-mcp --transport http http://localhost:6006/mcp --scope project"
   echo ""
 fi
+echo "IDS Storybook (hosted — no setup needed):"
+echo "  https://uxfabric.intuitcdn.net/internal/design-systems/ids-web/main/latest/index.html"
+echo ""

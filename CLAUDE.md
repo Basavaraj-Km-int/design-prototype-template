@@ -46,18 +46,64 @@ project-root/
 
 ## Intuit Design System (IDS)
 
-**Local clone**: `int-design-system/` (or nearby)
+**Local clone**: `ids-web-full/` (cloned during scaffold)
 **Registry**: `https://registry.npmjs.intuit.com/`
+**React version**: 18.2.0 (required — IDS peer dependency)
 
 ### Learn Before You Use
 
-Read from the local IDS clone before using any component:
+**Primary reference — Storybook MCP (programmatic, preferred):**
 
-1. `int-design-system/components/{Component}/README.md`
-2. `int-design-system/components/{Component}/src/types.ts`
-3. `int-design-system/components/{Component}/src/stories/*.stories.tsx`
-4. `int-design-system/components/{Component}/src/stories/Docs.mdx`
-5. `int-design-system/components/{Component}/src/*.snippet.tsx`
+If the Storybook MCP server is connected (`http://localhost:6006/mcp`), use these tools:
+1. `list-all-documentation` — discover all available IDS components
+2. `get-documentation("components-button")` — get props, stories, code examples for any component
+3. `get-documentation-for-story` — get a specific variant's code
+
+To set up: `cd ids-web-full && yarn build && yarn dev` then `claude mcp add storybook-mcp --transport http http://localhost:6006/mcp --scope project`
+
+**Secondary reference — IDS Storybook (live hosted):**
+`https://uxfabric.intuitcdn.net/internal/design-systems/ids-web/main/latest/index.html`
+
+Before using ANY IDS component, open the Storybook URL in Chrome DevTools MCP and navigate to the component's docs page to check:
+- Available props and their values
+- Visual examples of each variant (purpose, priority, size)
+- Do's and don'ts
+- Accessibility requirements
+
+**To look up a component via Chrome DevTools MCP:**
+1. `navigate_page` to `https://uxfabric.intuitcdn.net/internal/design-systems/ids-web/main/latest/index.html?path=/docs/components-{component}--docs`
+2. `take_screenshot` to see the rendered docs
+3. `take_snapshot` to read prop tables
+
+**Tertiary reference — local IDS clone (for source code):**
+
+1. `ids-web-full/components/{Component}/README.md`
+2. `ids-web-full/components/{Component}/src/types.ts`
+3. `ids-web-full/components/{Component}/src/stories/*.stories.tsx`
+4. `ids-web-full/components/{Component}/src/stories/Docs.mdx`
+5. `ids-web-full/components/{Component}/src/*.snippet.tsx`
+
+### IDS Design Tokens (CDN)
+
+Real IDS tokens are loaded from the Intuit CDN — do NOT manually define token values:
+- **CDN URL**: `https://uxfabric.intuitcdn.net/components/design-systems/tokens/ddms3.0/prod/24.5.0/css/intuit.css`
+- Tokens are downloaded to `src/styles/ids-tokens.css` during scaffold
+- Prototype overrides (softer shadows, borders for admin UIs) go in `src/styles/ids-overrides.css`
+- Never edit `ids-tokens.css` directly — re-download from CDN if tokens need updating
+
+### Vite + IDS Compatibility Notes
+
+IDS components that work well with Vite (JS-driven styling):
+- `@ids-ts/button` — all purpose/priority/size combos render correctly
+- `@ids-ts/badge` — all status variants render correctly
+- `@ids-ts/typography` — all heading/body variants render correctly
+
+IDS components with CSS Module hash conflicts in Vite (use token-styled alternatives):
+- `@ids-ts/table` — use `<table>` with IDS token CSS variables instead
+- `@ids-ts/dropdown` — use custom Select component with IDS tokens instead
+- `@ids-ts/text-field` — CSS has syntax that LightningCSS can't minify; use custom input with IDS tokens
+
+For admin/dashboard UIs, use H4 for page titles and H5 for section titles (H1-H3 are display-scale, designed for marketing pages).
 
 ### Import Pattern
 
@@ -205,12 +251,18 @@ npm run lint             # Run linter
 npm run typecheck        # TypeScript type checking
 npm run test             # Run tests
 
-# IDS Storybook (from IDS clone directory)
-cd int-design-system && nvm use 22 && corepack enable && yarn dev  # Port 6006
+# IDS Storybook (hosted — preferred, no setup needed)
+# Open in browser: https://uxfabric.intuitcdn.net/internal/design-systems/ids-web/main/latest/index.html
+
+# IDS Storybook (local — requires IDS repo clone + yarn 4.7.0 + nvm 22)
+# cd ids-web-full && nvm use 22 && corepack enable && yarn dev  # Port 6006
+
+# IDS Tokens (download latest from CDN)
+curl -s "https://uxfabric.intuitcdn.net/components/design-systems/tokens/ddms3.0/prod/24.5.0/css/intuit.css" > src/styles/ids-tokens.css
 
 # Dependencies
 npm install              # Install all dependencies
-npm install @ids-ts/button @ids-ts/text-field  # Add IDS components
+npm install @ids-ts/button @ids-ts/badge @ids-ts/typography  # Add IDS components
 ```
 
 ---
