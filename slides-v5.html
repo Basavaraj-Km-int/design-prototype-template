@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Done for You, for the Builders — XD Dev Setup Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   V5 — EDITORIAL NARRATIVE DECK
+   9 slides. Story, not catalog.
+   Arc: Irony → Gap → Mandate → Thesis →
+        Model → Infrastructure → Proof →
+        Compound → Mirror
+   ═══════════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --ink:#0d0d0d; --ink-80:#363636; --ink-60:#5c5c5c; --ink-40:#8a8a8a; --ink-20:#b8b8b8;
+  --surface:#f7f5f0; --surface-warm:#f0ece4; --surface-card:#ffffff; --surface-code:#1c1c1e;
+  --blue:#236cff; --blue-soft:#4d8bff; --blue-glow:rgba(35,108,255,0.12); --blue-bg:#236cff;
+  --dark:#0b0b0b; --dark-card:#1e1e22; --dark-border:#3a3a40; --dark-text:#ececec; --dark-muted:#7a7a7e;
+  --green:#4ade80; --red:#ef4444;
+  --serif:'DM Serif Display',Georgia,serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+  --mono:'JetBrains Mono','SF Mono',monospace;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html,body{margin:0;padding:0;overflow:hidden;height:100%;width:100%;font-family:var(--sans);background:#000;-webkit-font-smoothing:antialiased;}
+
+/* ═══ STAGE ═══ */
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;}
+.deck{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;overflow:hidden;font-size:min(2.1vh,1.18vw);}
+.track{display:flex;height:100%;transition:transform 0.7s var(--ease);will-change:transform;}
+
+/* ═══ SLIDE ═══ */
+.slide{flex:0 0 100%;height:100%;position:relative;overflow:hidden;}
+.slide--dark{background:var(--dark);color:var(--dark-text);}
+.slide--light{background:var(--surface);color:var(--ink);}
+.slide--blue{background:var(--blue-bg);color:#fff;}
+.slide--warm{background:#141418;color:var(--dark-text);}
+
+/* ═══ SAFE AREA GRID ═══ */
+.safe{
+  position:absolute;inset:3em 5em 3.5em;
+  border:1px solid rgba(255,255,255,0.04);
+  border-radius:0.6em;
+  display:flex;flex-direction:column;
+}
+.slide--light .safe{border-color:rgba(0,0,0,0.04);}
+.slide--blue .safe{border-color:rgba(255,255,255,0.06);}
+
+/* Split: left narrative + right visual */
+.safe--split{flex-direction:row;}
+.safe-left{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3.5em 4em;}
+.safe-right{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3.5em 4em;border-left:1px solid rgba(255,255,255,0.04);}
+.slide--light .safe-right{border-color:rgba(0,0,0,0.04);}
+
+/* Stacked: top narrative + bottom carousel */
+.safe--stacked{flex-direction:column;}
+.safe-top{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3em 4.5em;}
+.safe-bottom{flex:0 0 auto;padding:0 4.5em 3em;border-top:1px solid rgba(255,255,255,0.04);padding-top:2em;}
+.slide--light .safe-bottom{border-color:rgba(0,0,0,0.04);}
+.slide--blue .safe-bottom{border-color:rgba(255,255,255,0.06);}
+
+/* Center: single centered content */
+.safe--center{align-items:center;justify-content:center;text-align:center;padding:3.5em 5em;}
+
+.slide-num{position:absolute;top:1.2em;left:1.5em;font-family:var(--mono);font-size:0.72em;letter-spacing:0.15em;text-transform:uppercase;opacity:0.3;z-index:2;}
+
+/* ═══ TYPOGRAPHY ═══ */
+.t-display{font-family:var(--serif);font-style:italic;font-size:4.2em;line-height:1.1;letter-spacing:-0.02em;}
+.t-headline{font-family:var(--serif);font-size:2.7em;line-height:1.16;letter-spacing:-0.015em;}
+.t-narrative{font-size:1.22em;line-height:1.72;font-weight:400;max-width:38em;color:var(--ink-60);}
+.slide--dark .t-narrative,.slide--warm .t-narrative{color:var(--dark-muted);}
+.slide--blue .t-narrative{color:rgba(255,255,255,0.78);}
+.t-narrative em{font-style:italic;color:var(--ink-80);}
+.slide--dark .t-narrative em,.slide--warm .t-narrative em{color:var(--dark-text);}
+.t-small{font-size:0.88em;line-height:1.55;}
+.t-label{font-family:var(--mono);font-size:0.7em;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;}
+.t-quote{font-family:var(--serif);font-style:italic;font-size:2em;line-height:1.38;}
+.t-quote-attr{font-family:var(--sans);font-size:0.82em;color:var(--dark-muted);font-style:normal;margin-top:0.8em;}
+.c-blue{color:var(--blue);}.c-blue-s{color:var(--blue-soft);}.c-muted{color:var(--ink-40);}
+.slide--dark .c-muted,.slide--warm .c-muted{color:var(--dark-muted);}
+
+/* ═══ CAROUSEL STRIP ═══ */
+.carousel-strip{display:flex;gap:1.8em;align-items:stretch;}
+.carousel-card{flex:0 0 auto;min-width:14em;max-width:20em;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:0.8em;padding:1.6em 1.8em;display:flex;flex-direction:column;gap:0.6em;}
+.slide--light .carousel-card{background:var(--surface-card);border-color:rgba(0,0,0,0.08);}
+.slide--blue .carousel-card{background:rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.12);}
+.carousel-card .t-label{margin-bottom:0.2em;}
+.carousel-card-title{font-weight:600;font-size:1em;}
+.carousel-card-desc{font-size:0.85em;color:var(--dark-muted);line-height:1.5;}
+.slide--light .carousel-card-desc{color:var(--ink-40);}
+.slide--blue .carousel-card-desc{color:rgba(255,255,255,0.6);}
+
+/* ═══ TERMINAL WINDOW ═══ */
+.terminal{background:#1a1a1e;border:1px solid var(--dark-border);border-radius:0.8em;overflow:hidden;width:100%;}
+.terminal-bar{display:flex;align-items:center;gap:0.5em;padding:0.7em 1.2em;background:#141416;border-bottom:1px solid var(--dark-border);}
+.terminal-dot{width:0.55em;height:0.55em;border-radius:50%;}
+.terminal-dot--r{background:#ff5f57;}.terminal-dot--y{background:#febc2e;}.terminal-dot--g{background:#28c840;}
+.terminal-title{flex:1;text-align:center;font-family:var(--mono);font-size:0.65em;color:var(--dark-muted);letter-spacing:0.05em;}
+.terminal-body{padding:1.5em 1.8em;font-family:var(--mono);font-size:0.8em;line-height:1.9;}
+.slide--blue .terminal{background:rgba(0,0,0,0.45);border-color:rgba(255,255,255,0.1);}
+.slide--blue .terminal-bar{background:rgba(0,0,0,0.3);border-color:rgba(255,255,255,0.08);}
+
+/* Terminal line animations */
+.terminal-body .tl{opacity:0;animation:term-line 0.4s var(--ease) forwards;}
+.active .tl{opacity:0;}
+.active .tl:nth-child(1){animation-delay:0.3s;}.active .tl:nth-child(2){animation-delay:0.6s;}
+.active .tl:nth-child(3){animation-delay:0.9s;}.active .tl:nth-child(4){animation-delay:1.2s;}
+.active .tl:nth-child(5){animation-delay:1.5s;}.active .tl:nth-child(6){animation-delay:1.8s;}
+.active .tl:nth-child(7){animation-delay:2.1s;}.active .tl:nth-child(8){animation-delay:2.4s;}
+.active .tl:nth-child(9){animation-delay:2.7s;}.active .tl:nth-child(10){animation-delay:3.0s;}
+.active .tl:nth-child(11){animation-delay:3.3s;}.active .tl:nth-child(12){animation-delay:3.6s;}
+@keyframes term-line{from{opacity:0;transform:translateY(0.3em);}to{opacity:1;transform:translateY(0);}}
+
+.line-prompt{color:#6b7280;}.line-cmd{color:#e5e7eb;}.line-err{color:var(--red);}.line-ok{color:var(--green);}.line-dim{color:#4b5563;}.line-string{color:#a78bfa;}.line-key{color:#67e8f9;}.line-warn{color:#fbbf24;}
+
+/* Code block (simpler inline version) */
+.code-block{background:var(--surface-code);color:#d4d4d8;border-radius:0.7em;padding:1.5em 2em;font-family:var(--mono);font-size:0.82em;line-height:1.85;overflow:hidden;}
+
+/* ═══ TIMELINE STRIP ═══ */
+.timeline-strip{display:flex;align-items:center;gap:0;width:100%;}
+.tl-node{display:flex;flex-direction:column;align-items:center;gap:0.5em;flex:0 0 auto;text-align:center;}
+.tl-dot{width:1em;height:1em;border-radius:50%;background:var(--blue-soft);border:2px solid #141418;position:relative;z-index:2;}
+.tl-dot--red{background:var(--red);}.tl-dot--dim{background:var(--dark-muted);}
+.tl-label{font-size:0.75em;color:var(--dark-muted);max-width:9em;line-height:1.4;}
+.tl-connector{flex:1;height:2px;background:var(--dark-border);min-width:2em;margin-top:-1.2em;}
+
+/* Stat card — for proof carousel */
+.stat-card{flex:0 0 auto;text-align:center;padding:1.5em 2em;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:0.8em;min-width:10em;}
+.stat-num{font-family:var(--serif);font-size:3.2em;line-height:1;color:var(--blue-soft);margin-bottom:0.1em;}
+.stat-label{font-size:0.88em;font-weight:500;color:var(--dark-text);}
+.stat-sub{font-size:0.72em;color:var(--dark-muted);margin-top:0.3em;}
+
+/* Pill */
+.pill{display:inline-flex;align-items:center;gap:0.6em;padding:0.45em 1.2em;border-radius:2em;font-size:0.78em;font-weight:500;letter-spacing:0.04em;}
+.pill--dark{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:var(--dark-text);}
+.pill--blue{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;}
+.pill-dot{width:0.45em;height:0.45em;border-radius:50%;background:var(--blue-soft);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+
+/* Divider */
+.divider{width:3em;height:2px;background:var(--blue-soft);border-radius:1px;opacity:0.5;}
+.accent-line{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-soft),transparent);}
+
+/* From/To — for role evolution */
+.evo-row{display:flex;gap:1.8em;}
+.evo-card{flex:1;text-align:center;padding:1.5em;background:var(--dark-card);border:1px solid var(--dark-border);border-radius:0.8em;}
+.evo-from{font-size:0.85em;color:var(--dark-muted);margin-bottom:0.6em;}
+.evo-arrow{color:var(--blue-soft);font-size:1.1em;margin-bottom:0.4em;}
+.evo-to{font-size:1em;font-weight:600;color:var(--dark-text);}
+
+/* Workflow steps — for operating model */
+.flow-strip{display:flex;align-items:center;gap:0.6em;}
+.flow-step{padding:0.55em 1.2em;border-radius:0.5em;font-size:0.85em;font-weight:500;}
+.flow-step--active{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:#fff;}
+.flow-step--muted{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);}
+.flow-arrow{color:rgba(255,255,255,0.3);font-size:1em;}
+
+/* Vision timeline */
+.vision-step{display:flex;align-items:flex-start;gap:1.2em;}
+.vision-num{flex-shrink:0;width:2em;height:2em;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-weight:600;font-size:0.82em;background:var(--blue-glow);color:var(--blue);border:1px solid rgba(35,108,255,0.2);}
+.vision-text{flex:1;}.vision-title{font-weight:600;font-size:0.95em;margin-bottom:0.2em;}
+.vision-desc{font-size:0.82em;color:var(--ink-40);line-height:1.5;}
+
+/* ═══ ANIMATIONS ═══ */
+[data-a]{opacity:0;animation-duration:0.65s;animation-timing-function:var(--ease);animation-fill-mode:forwards;}
+.active [data-a="fade"]{animation-name:a-fade;}.active [data-a="up"]{animation-name:a-up;}
+.active [data-a="scale"]{animation-name:a-scale;}.active [data-a="left"]{animation-name:a-left;}
+.active [data-a="right"]{animation-name:a-right;}
+[data-d="1"]{animation-delay:0.1s;}[data-d="2"]{animation-delay:0.2s;}[data-d="3"]{animation-delay:0.3s;}
+[data-d="4"]{animation-delay:0.4s;}[data-d="5"]{animation-delay:0.5s;}[data-d="6"]{animation-delay:0.6s;}
+[data-d="7"]{animation-delay:0.7s;}[data-d="8"]{animation-delay:0.8s;}
+
+@keyframes a-fade{from{opacity:0;}to{opacity:1;}}
+@keyframes a-up{from{opacity:0;transform:translateY(1.5em);}to{opacity:1;transform:translateY(0);}}
+@keyframes a-scale{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
+@keyframes a-left{from{opacity:0;transform:translateX(-2em);}to{opacity:1;transform:translateX(0);}}
+@keyframes a-right{from{opacity:0;transform:translateX(2em);}to{opacity:1;transform:translateX(0);}}
+
+/* ═══ NAV ═══ */
+.nav{position:absolute;bottom:0;left:0;right:0;height:3em;display:flex;align-items:center;justify-content:center;gap:1.2em;z-index:100;background:linear-gradient(transparent,rgba(0,0,0,0.4));}
+.nav-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.4);font-size:1.1em;padding:0.4em;transition:color 0.2s;font-family:var(--sans);}
+.nav-btn:hover{color:rgba(255,255,255,0.9);}
+.dots{display:flex;gap:0.45em;}
+.dot{width:0.5em;height:0.5em;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s var(--ease);border:none;padding:0;}
+.dot.on{background:var(--blue);width:1.6em;border-radius:0.25em;}
+.counter{position:absolute;bottom:1em;right:7em;font-family:var(--mono);font-size:0.65em;color:rgba(255,255,255,0.25);}
+</style>
+</head>
+<body>
+<div class="stage"><div class="deck" id="deck"><div class="track" id="track">
+
+<!-- ═══════ 1 / THE IRONY — split: narrative left, terminal contrast right ═══════ -->
+<div class="slide slide--dark">
+  <div class="accent-line"></div>
+  <div class="safe safe--split">
+    <div class="safe-left" style="align-items:flex-start;">
+      <div data-a="fade"><span class="pill pill--dark"><span class="pill-dot"></span> 3X AI-Native Builder Initiative</span></div>
+      <div data-a="up" data-d="1" class="t-display" style="max-width:12em; margin-top:0.6em;">
+        We build<br>Done&nbsp;for&nbsp;You<br>for 100M customers.<br>
+        <span class="c-blue-s">Who builds it<br>for&nbsp;us?</span>
+      </div>
+      <div data-a="up" data-d="3" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        The people building &ldquo;done for you&rdquo;<br>don't have &ldquo;done for them.&rdquo;
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="2" style="gap:2em;">
+      <!-- Customer side -->
+      <div class="terminal" style="border-color:rgba(74,222,128,0.2);">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--g"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">what customers see</div></div>
+        <div class="terminal-body" style="text-align:center; padding:2em;">
+          <div class="line-ok" style="font-size:1.6em; font-weight:600;">Your refund is $4,200</div>
+          <div class="line-dim" style="margin-top:0.5em;">Effortless. Automated. Done for you.</div>
+        </div>
+      </div>
+      <!-- Builder side -->
+      <div class="terminal" style="border-color:rgba(239,68,68,0.2);">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">what builders see</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">npm install @ids-ts/button</span></div>
+          <div class="tl"><span class="line-err">ERR! peer dep requires react@^18.2.0</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">npm install @ids-ts/table</span></div>
+          <div class="tl"><span class="line-err">ERR! CSS parsing error in LightningCSS</span></div>
+          <div class="tl"><span class="line-dim"># 3 hours later: still no prototype</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 2 / THE GAP — split: narrative left, timeline right ═══════ -->
+<div class="slide slide--warm">
+  <div class="safe safe--split">
+    <span class="slide-num">01 / the gap</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue-s" style="margin-bottom:0.6em;">Where ideas go to die</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        Between insight<br>and validation,<br>
+        <span class="c-blue-s">ideas go to die.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        A PM discovers a customer pattern. A designer sketches a new model.
+        But to <em>test</em> that idea with a real prototype, they need a working dev
+        environment, IDS components that actually render, engineering bandwidth,
+        and an AI agent that speaks Intuit.
+        <br><br>
+        So the idea waits. The decision gets made on a slide deck.
+        The cost isn't technical &mdash; it's <em>human</em>.
+      </div>
+    </div>
+    <div class="safe-right" data-a="left" data-d="3">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">idea → prototype journey</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-ok">▸ Insight spark</span> <span class="line-dim">.............. t+0</span></div>
+          <div class="tl"><span class="line-warn">▸ Environment setup</span> <span class="line-dim">......... t+2 days</span></div>
+          <div class="tl"><span class="line-err">✗ IDS breaks in Vite</span> <span class="line-dim">........ t+3 days</span></div>
+          <div class="tl"><span class="line-warn">▸ Waiting for eng help</span> <span class="line-dim">...... t+5 days</span></div>
+          <div class="tl"><span class="line-err">✗ Eng busy, deprioritized</span> <span class="line-dim">.. t+8 days</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────</span></div>
+          <div class="tl"><span class="line-err">✗ Decision made without prototype</span></div>
+          <div class="tl"><span class="line-dim"># "Systemic friction can turn a</span></div>
+          <div class="tl"><span class="line-dim">#  two-day task into a ten-day project"</span></div>
+          <div class="tl"><span class="line-dim">#  — 3X Initiative</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 3 / THE MANDATE — split: narrative left, quote cards right ═══════ -->
+<div class="slide slide--dark">
+  <div class="safe safe--split">
+    <span class="slide-num">02 / the mandate</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue-s" style="margin-bottom:0.6em;">The 3X imperative</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        10,000 builders.<br>The impact of 30,000.<br>
+        <span class="c-blue-s">Only if the infrastructure keeps up.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        This isn't aspirational. This is the new operating model.
+        But operating models need infrastructure. And right now, the
+        infrastructure for product builders to prototype at 3X velocity
+        <em>doesn't exist</em>.
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="3" style="gap:1.5em;">
+      <div class="carousel-card">
+        <div class="t-label c-blue-s">CEO — Feb 2026</div>
+        <div class="carousel-card-title" style="font-style:italic;">&ldquo;If you're not three steps ahead, you're going to lose the game.&rdquo;</div>
+        <div class="carousel-card-desc">Sasan Goodarzi on competitive urgency</div>
+      </div>
+      <div class="carousel-card">
+        <div class="t-label c-blue-s">CTO — Nov 2025</div>
+        <div class="carousel-card-title" style="font-style:italic;">&ldquo;The days of clickable UI — those days are over.&rdquo;</div>
+        <div class="carousel-card-desc">Alex Balazs on the paradigm shift</div>
+      </div>
+      <div class="carousel-card">
+        <div class="t-label c-blue-s">3X Initiative — Role evolution</div>
+        <div class="carousel-card-desc" style="line-height:2; font-size:0.9em;">
+          <span class="line-dim">Writing every line</span> → <span style="color:var(--dark-text);">Designing systems</span><br>
+          <span class="line-dim">Managing tasks</span> → <span style="color:var(--dark-text);">Orchestrating outcomes</span><br>
+          <span class="line-dim">Manual creation</span> → <span style="color:var(--dark-text);">Directing AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 4 / THE THESIS — split: headline left, terminal right ═══════ -->
+<div class="slide slide--blue">
+  <div class="safe safe--split">
+    <div class="safe-left" style="align-items:flex-start;">
+      <div data-a="fade"><span class="pill pill--blue"><span class="pill-dot" style="background:#fff;"></span> The thesis</span></div>
+      <div data-a="scale" data-d="1" class="t-display" style="max-width:11em; margin-top:0.5em;">
+        What if we applied Done&nbsp;for&nbsp;You to ourselves?
+      </div>
+      <div data-a="up" data-d="3" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        One command. Full IDS parity. Agentic product development.
+        The builder writes a problem statement. The agent builds the prototype.
+        The builder judges the output. No code. No engineering dependency.
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="2" style="border-color:rgba(255,255,255,0.08);">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">xd-dev-setup-kit</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">git clone xd-dev-setup-kit my-prototype</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">cd my-prototype && ./scaffold.sh</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-ok">✓ React 18 + TypeScript + Vite</span></div>
+          <div class="tl"><span class="line-ok">✓ 68+ IDS components (real @ids-ts)</span></div>
+          <div class="tl"><span class="line-ok">✓ 6 brand tokens from Intuit CDN</span></div>
+          <div class="tl"><span class="line-ok">✓ Storybook + MSW mock APIs</span></div>
+          <div class="tl"><span class="line-ok">✓ 13 MCP servers connected</span></div>
+          <div class="tl"><span class="line-ok">✓ 2,400-line AI agent harness</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-ok" style="font-weight:600;">Done in ~2 minutes. Ready to build.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 5 / THE OPERATING MODEL + SERVICE AS SOFTWARE — merged ═══════ -->
+<div class="slide slide--dark">
+  <div class="safe safe--split">
+    <span class="slide-num">03 / the operating model</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue-s" style="margin-bottom:0.6em;">Agentic product development</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        The builder orchestrates.<br>
+        <span class="c-blue-s">The agent executes.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        The CTO calls this <em>&ldquo;Service as Software&rdquo;</em> &mdash; not better tools
+        with AI features, but automated delivery of outcomes. This kit applies
+        that thesis reflexively: the builder writes a PRD. The agent delivers a
+        working prototype. IDS-compliant, accessible, Figma-synced.
+        <br><br>
+        Four steps. Two are the builder's:
+        <em>define the problem, judge the solution.</em>
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="3">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">agentic workflow — service as software</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-dim">STEP 1 ─── scaffold (automated)</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">./scaffold.sh</span> <span class="line-ok">✓</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-ok">STEP 2 ─── write PRD ★ (builder)</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">vim docs/PRD.md</span></div>
+          <div class="tl"><span class="line-string">  "I am a PM trying to validate..."</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-dim">STEP 3 ─── agent builds (automated)</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">claude "Read the PRD and build it"</span></div>
+          <div class="tl"><span class="line-key">  → generating design.md...</span></div>
+          <div class="tl"><span class="line-key">  → selecting IDS components...</span></div>
+          <div class="tl"><span class="line-key">  → building accessible UI...</span></div>
+          <div class="tl"><span class="line-key">  → syncing to Figma...</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-ok">STEP 4 ─── review ★ (builder)</span></div>
+          <div class="tl"><span class="line-ok">  "Make the nav sticky and add empty state"</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 6 / THE INFRASTRUCTURE + MULTI-AGENT — merged ═══════ -->
+<div class="slide slide--warm">
+  <div class="safe safe--split">
+    <span class="slide-num">04 / the infrastructure</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue-s" style="margin-bottom:0.6em;">What one command delivers</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        68 components. 6 brands.<br>5 AI agents.<br>
+        <span class="c-blue-s">2,400 lines of<br>institutional knowledge.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        Real <em>@ids-ts</em> with the correct API. CDN tokens for all 6 Intuit brands.
+        Bidirectional Figma sync with 10 skills. Not locked to one AI vendor &mdash;
+        supports Claude Code, Cursor, Windsurf, Copilot, and Augment.
+        213 pre-built prompts. D4D methodology enforced. Safety guardrails built in.
+        <em>The agent doesn't guess. It knows Intuit.</em>
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="3">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">infrastructure inventory</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-dim">WHAT'S IN THE BOX</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────────</span></div>
+          <div class="tl"><span class="line-ok">✓ 68+ IDS components</span>  <span class="line-dim">real @ids-ts</span></div>
+          <div class="tl"><span class="line-ok">✓ 6 brand tokens</span>     <span class="line-dim">CDN, 2-line switch</span></div>
+          <div class="tl"><span class="line-ok">✓ 13 MCP servers</span>     <span class="line-dim">connected context</span></div>
+          <div class="tl"><span class="line-ok">✓ 10 Figma skills</span>    <span class="line-dim">bidirectional sync</span></div>
+          <div class="tl"><span class="line-ok">✓ Storybook + MSW</span>    <span class="line-dim">docs + mock APIs</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-dim">AGENTS (5)</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────────</span></div>
+          <div class="tl"><span class="line-ok">✓ Claude · Cursor · Windsurf</span></div>
+          <div class="tl"><span class="line-ok">✓ GitHub Copilot · Augment</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-dim">GUARDRAILS</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────────</span></div>
+          <div class="tl"><span class="line-key">D4D enforced</span>   <span class="line-dim">Problem → hypothesis</span></div>
+          <div class="tl"><span class="line-key">10 UI states</span>   <span class="line-dim">auto-generated</span></div>
+          <div class="tl"><span class="line-key">213 prompts</span>    <span class="line-dim">copy-paste workflows</span></div>
+          <div class="tl"><span class="line-err">✗ destructive ops blocked</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 7 / THE PROOF — split: narrative left, metrics terminal right ═══════ -->
+<div class="slide slide--dark" style="background:#101014;">
+  <div class="safe safe--split">
+    <span class="slide-num">05 / the proof</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue-s" style="margin-bottom:0.6em;">Measured, not promised</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        One builder.<br>One afternoon.<br>
+        <span class="c-blue-s">Zero lines of code written.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        A product builder with no React experience went from zero to a working,
+        IDS-compliant, multi-screen prototype in a single session. For the first time,
+        they said: <em>&ldquo;This feels like mine &mdash; I built this.&rdquo;</em>
+        <br><br>
+        A PM used the kit to validate a product hypothesis &mdash; replacing a 2-week
+        eng spike with a single afternoon. The hypothesis was invalidated the same week,
+        saving the team from a direction that wouldn't have worked.
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="3">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">impact metrics</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-dim">METRIC              BEFORE         AFTER</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────────────</span></div>
+          <div class="tl"><span class="line-key">Setup time</span>       <span class="line-dim">2–5 days</span>    →  <span class="line-ok">~2 min</span></div>
+          <div class="tl"><span class="line-key">IDS fidelity</span>     <span class="line-dim">generic</span>     →  <span class="line-ok">100% real</span></div>
+          <div class="tl"><span class="line-key">Brand coverage</span>   <span class="line-dim">1 brand</span>     →  <span class="line-ok">6 brands</span></div>
+          <div class="tl"><span class="line-key">Eng dependency</span>   <span class="line-dim">wait sprints</span> → <span class="line-ok">zero</span></div>
+          <div class="tl"><span class="line-key">PRD → prototype</span>  <span class="line-dim">weeks</span>       →  <span class="line-ok">hours</span></div>
+          <div class="tl"><span class="line-key">Builder role</span>     <span class="line-dim">maker</span>       →  <span class="line-ok">orchestrator</span></div>
+          <div class="tl"><span class="line-key">Accessibility</span>    <span class="line-dim">bolt-on</span>     →  <span class="line-ok">built-in</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────────────</span></div>
+          <div class="tl"><span class="line-ok" style="font-weight:600;">  VELOCITY MULTIPLIER:       3X</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 8 / THE 90-DAY MAP — split: narrative left, timeline terminal right ═══════ -->
+<div class="slide slide--warm">
+  <div class="safe safe--split">
+    <span class="slide-num">06 / the 90-day map</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue-s" style="margin-bottom:0.6em;">We're on schedule</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        The 3X roadmap says<br>April is for<br>
+        <span class="c-blue-s">removing friction<br>in how we build.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        Chris Kasten's 90-day plan is explicit. March: Claude Code rollout and alpha teams activated.
+        <em>April: remove friction in how we build.</em> May: scale agent-driven development company-wide.
+        <br><br>
+        This kit isn't ahead of schedule or behind it. It's executing <em>exactly</em>
+        what the initiative's own roadmap calls for &mdash; right now, in April 2026.
+        The December 2025 threshold, when AI crossed from autocomplete to agentic,
+        is what made this possible.
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="3">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">3X initiative — 90-day roadmap</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-dim">DEC 2025 ─── AI crosses agentic threshold</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-ok">MAR 2026 ─── Foundation</span></div>
+          <div class="tl"><span class="line-ok">  ✓ Claude Code rolled out to builders</span></div>
+          <div class="tl"><span class="line-ok">  ✓ Alpha teams activated</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-warn" style="font-weight:600;">APR 2026 ─── Remove friction ← YOU ARE HERE</span></div>
+          <div class="tl"><span class="line-warn">  ▸ Remove friction in how we build</span></div>
+          <div class="tl"><span class="line-warn">  ▸ Alpha teams build multi-agent workflows</span></div>
+          <div class="tl"><span class="line-warn">  ▸ XD Dev Setup Kit = this deliverable</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-dim">MAY 2026 ─── Scale</span></div>
+          <div class="tl"><span class="line-dim">  ○ Agent-driven dev scaled company-wide</span></div>
+          <div class="tl"><span class="line-dim">  ○ Proven workflows become the new standard</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-dim">─────────────────────────────────────────────</span></div>
+          <div class="tl"><span class="line-dim">Chief Architect: Chris Kasten</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 9 / THE COMPOUND EFFECT — split: narrative left, roadmap right ═══════ -->
+<div class="slide slide--light">
+  <div class="safe safe--split">
+    <span class="slide-num">07 / the compound effect</span>
+    <div class="safe-left">
+      <div data-a="up" class="t-label c-blue" style="margin-bottom:0.6em;">Infrastructure, not a template</div>
+      <div data-a="up" data-d="1" class="t-headline" style="max-width:14em;">
+        This isn't a template.<br>
+        <span class="c-blue">It's infrastructure<br>that gets smarter.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-narrative" style="margin-top:1em; max-width:22em;">
+        Every prototype compounds organizational knowledge.
+        Shared components. Shared patterns. Shared agent instructions.
+        The 3X multiplier isn't about speed at the old way of working &mdash;
+        it's about <em>compounding</em>. Each prototype teaches the next one.
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="3" style="gap:1.5em; border-color:rgba(0,0,0,0.04);">
+      <div class="carousel-card" style="border-left:3px solid var(--blue);">
+        <div class="vision-step">
+          <div class="vision-num">1</div>
+          <div class="vision-text">
+            <div class="vision-title">Today — Individual</div>
+            <div class="vision-desc">Individual builders prove the agentic workflow. PD, PM, Design &mdash; anyone goes from PRD to prototype.</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-card" style="border-left:3px solid var(--blue); opacity:0.85;">
+        <div class="vision-step">
+          <div class="vision-num">2</div>
+          <div class="vision-text">
+            <div class="vision-title">Next — Team adoption</div>
+            <div class="vision-desc">Shared component libraries across teams. The agentic PD playbook scales. Knowledge compounds through CLAUDE.md.</div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-card" style="border-left:3px solid var(--blue); opacity:0.7;">
+        <div class="vision-step">
+          <div class="vision-num">3</div>
+          <div class="vision-text">
+            <div class="vision-title">Future — Org-wide platform</div>
+            <div class="vision-desc">Agentic product development as the standard operating model for all 10,000 builders.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ 9 / THE MIRROR — split: headline left, terminal CTA right ═══════ -->
+<div class="slide slide--blue">
+  <div class="safe safe--split">
+    <div class="safe-left" style="align-items:flex-start;">
+      <div data-a="fade" class="divider" style="background:#fff; opacity:0.3; margin-bottom:1.5em;"></div>
+      <div data-a="scale" data-d="1" class="t-display" style="max-width:11em;">
+        Done for You,<br>for the builders<br>who build<br>Done&nbsp;for&nbsp;You.
+      </div>
+      <div data-a="up" data-d="3" class="t-narrative" style="margin-top:1.2em; max-width:20em;">
+        If Intuit's thesis is &ldquo;automate the outcome for the customer,&rdquo;
+        then the internal thesis must be &ldquo;automate the outcome for the builder.&rdquo;
+        <br><br>
+        <em style="color:#fff;">The meta is the message.</em>
+      </div>
+    </div>
+    <div class="safe-right" data-a="right" data-d="4" style="gap:2em; border-color:rgba(255,255,255,0.08);">
+      <div class="terminal">
+        <div class="terminal-bar"><div class="terminal-dot terminal-dot--r"></div><div class="terminal-dot terminal-dot--y"></div><div class="terminal-dot terminal-dot--g"></div><div class="terminal-title">get started</div></div>
+        <div class="terminal-body">
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">git clone xd-dev-setup-kit my-prototype</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">cd my-prototype && ./scaffold.sh</span></div>
+          <div class="tl"><span class="line-prompt">$</span> <span class="line-cmd">claude "Read the PRD and build it"</span></div>
+          <div class="tl"><span class="line-dim">&nbsp;</span></div>
+          <div class="tl"><span class="line-ok" style="font-size:1.1em; font-weight:600;">Done for you.</span></div>
+        </div>
+      </div>
+      <div class="t-small" style="color:rgba(255,255,255,0.35); text-align:center;">
+        Design Engineering · GTM Tech XD · Intuit · 2026
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<div class="nav" id="nav">
+  <button class="nav-btn" id="prev" aria-label="Previous">&larr;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="next" aria-label="Next">&rarr;</button>
+</div>
+<div class="counter" id="counter"></div>
+</div></div>
+<script>
+(function(){
+  const track=document.getElementById('track'),dots=document.getElementById('dots'),counter=document.getElementById('counter');
+  const slides=document.querySelectorAll('.slide'),N=slides.length;
+  let cur=0;
+  for(let i=0;i<N;i++){const d=document.createElement('button');d.className='dot';d.setAttribute('aria-label','Slide '+(i+1));d.addEventListener('click',()=>go(i));dots.appendChild(d);}
+  function go(n){cur=Math.max(0,Math.min(N-1,n));track.style.transform=`translateX(-${cur*100}%)`;dots.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));counter.textContent=`${cur+1} / ${N}`;slides.forEach((s,i)=>{s.classList.toggle('active',i===cur);if(i===cur)s.querySelectorAll('[data-a]').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});});}
+  go(0);
+  document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(cur+1);}if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}});
+  document.getElementById('prev').addEventListener('click',()=>go(cur-1));
+  document.getElementById('next').addEventListener('click',()=>go(cur+1));
+})();
+</script>
+</body>
+</html>

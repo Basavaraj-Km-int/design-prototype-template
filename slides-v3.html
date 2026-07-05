@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XD Dev Setup Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   V3 — PERSUASIVE NARRATIVE DECK
+   Story arc: Agreement → Tension → Cost →
+   Solution → Proof → Vision → Ask
+   ═══════════════════════════════════════════════ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* Ink system */
+  --ink:          #0d0d0d;
+  --ink-80:       #363636;
+  --ink-60:       #5c5c5c;
+  --ink-40:       #8a8a8a;
+  --ink-20:       #b8b8b8;
+
+  /* Surface system */
+  --surface:      #f7f5f0;
+  --surface-warm: #f0ece4;
+  --surface-card: #ffffff;
+  --surface-code: #1c1c1e;
+
+  /* Brand */
+  --blue:         #236cff;
+  --blue-soft:    #4d8bff;
+  --blue-glow:    rgba(35,108,255,0.12);
+  --blue-bg:      #236cff;
+
+  /* Dark theme */
+  --dark:         #0b0b0b;
+  --dark-card:    #1e1e22;
+  --dark-border:  #3a3a40;
+  --dark-text:    #ececec;
+  --dark-muted:   #7a7a7e;
+
+  /* Accent (same blue family for unity) */
+  --warm:         #236cff;
+  --warm-soft:    #4d8bff;
+
+  /* Type */
+  --serif:   'DM Serif Display', Georgia, serif;
+  --sans:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono:    'JetBrains Mono', 'SF Mono', monospace;
+
+  /* Motion */
+  --ease:    cubic-bezier(0.16, 1, 0.3, 1);
+  --spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html, body {
+  margin: 0; padding: 0; overflow: hidden;
+  height: 100%; width: 100%;
+  font-family: var(--sans);
+  background: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ═══════ 16:9 STAGE ═══════ */
+.stage {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #000;
+}
+
+.deck {
+  position: relative;
+  width: 100vw; height: 56.25vw;
+  max-height: 100vh; max-width: 177.78vh;
+  overflow: hidden;
+  font-size: min(2.1vh, 1.18vw);
+}
+
+.track {
+  display: flex; height: 100%;
+  transition: transform 0.7s var(--ease);
+  will-change: transform;
+}
+
+/* ═══════ SLIDE BASE ═══════ */
+.slide {
+  flex: 0 0 100%; height: 100%;
+  display: flex; flex-direction: column;
+  justify-content: center;
+  padding: 3em 6em 4.5em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Theme variants */
+.slide--light  { background: var(--surface); color: var(--ink); }
+.slide--dark   { background: var(--dark); color: var(--dark-text); }
+.slide--blue   { background: var(--blue-bg); color: #fff; }
+.slide--warm-dark { background: var(--dark); color: var(--dark-text); }
+
+/* Slide numbering */
+.slide-num {
+  position: absolute; top: 1.8em; left: 6em;
+  font-family: var(--mono); font-size: 0.72em;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  opacity: 0.4;
+}
+.slide--dark .slide-num,
+.slide--blue .slide-num,
+.slide--warm-dark .slide-num { opacity: 0.35; }
+
+/* ═══════ TYPOGRAPHY ═══════ */
+.t-display {
+  font-family: var(--serif); font-style: italic;
+  font-size: 5.6em; line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.t-headline {
+  font-family: var(--serif);
+  font-size: 3.2em; line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+.t-subhead {
+  font-size: 1.35em; line-height: 1.5;
+  font-weight: 400; max-width: 42em;
+}
+.t-body {
+  font-size: 1.05em; line-height: 1.65;
+  font-weight: 400;
+}
+.t-small {
+  font-size: 0.88em; line-height: 1.55;
+  font-weight: 400;
+}
+.t-label {
+  font-family: var(--mono); font-size: 0.72em;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500;
+}
+.t-quote {
+  font-family: var(--serif); font-style: italic;
+  font-size: 1.8em; line-height: 1.45;
+}
+.t-code {
+  font-family: var(--mono); font-size: 0.92em;
+  line-height: 1.7;
+}
+
+/* Color modifiers */
+.c-blue    { color: var(--blue); }
+.c-warm    { color: var(--warm); }
+.c-muted   { color: var(--ink-40); }
+.c-blue-s  { color: var(--blue-soft); }
+.c-warm-s  { color: var(--warm-soft); }
+
+.slide--dark .c-muted,
+.slide--warm-dark .c-muted { color: var(--dark-muted); }
+
+/* ═══════ LAYOUT ═══════ */
+.split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 4em; align-items: center;
+  height: 100%;
+}
+.split--55 { grid-template-columns: 55fr 45fr; }
+.split--60 { grid-template-columns: 60fr 40fr; }
+.split--40 { grid-template-columns: 40fr 60fr; }
+
+.stack      { display: flex; flex-direction: column; }
+.gap-xs     { gap: 0.5em; }
+.gap-sm     { gap: 1em; }
+.gap-md     { gap: 1.8em; }
+.gap-lg     { gap: 2.8em; }
+.gap-xl     { gap: 4em; }
+
+.center-y   { justify-content: center; }
+.center-x   { align-items: center; text-align: center; }
+.center-all { align-items: center; text-align: center; justify-content: center; }
+
+.grid-2     { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; }
+.grid-3     { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2em; }
+.grid-4     { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.5em; }
+.grid-5     { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5em; }
+.grid-23    { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1.8em; }
+
+.mt-auto    { margin-top: auto; }
+.mb-sm      { margin-bottom: 0.8em; }
+.mb-md      { margin-bottom: 1.5em; }
+.mb-lg      { margin-bottom: 2.5em; }
+.mt-sm      { margin-top: 0.8em; }
+.mt-md      { margin-top: 1.5em; }
+.mt-lg      { margin-top: 2.5em; }
+
+/* ═══════ COMPONENTS ═══════ */
+
+/* Cards */
+.card {
+  background: var(--surface-card);
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 0.8em;
+  padding: 2em 2.2em;
+}
+.slide--dark .card,
+.slide--warm-dark .card {
+  background: var(--dark-card);
+  border-color: var(--dark-border);
+}
+.slide--blue .card {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.18);
+}
+
+/* Code blocks */
+.code-block {
+  background: var(--surface-code);
+  color: #d4d4d8;
+  border-radius: 0.7em;
+  padding: 2em 2.5em;
+  font-family: var(--mono);
+  font-size: 0.88em;
+  line-height: 1.85;
+  overflow: hidden;
+}
+.code-block .line-prompt { color: #6b7280; }
+.code-block .line-cmd    { color: #e5e7eb; }
+.code-block .line-flag   { color: var(--blue-soft); }
+.code-block .line-err    { color: #ef4444; }
+.code-block .line-ok     { color: #4ade80; }
+.code-block .line-dim    { color: #4b5563; }
+.code-block .line-string { color: #a78bfa; }
+.code-block .line-key    { color: #67e8f9; }
+
+.slide--blue .code-block {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Stat cards */
+.stat {
+  text-align: center;
+  padding: 2.2em 1.5em;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 4em; line-height: 1;
+  color: var(--blue);
+  margin-bottom: 0.15em;
+}
+.stat-label {
+  font-size: 0.92em; font-weight: 500;
+  color: var(--ink-80);
+}
+.stat-sub {
+  font-size: 0.78em; color: var(--ink-40);
+  margin-top: 0.3em;
+}
+.slide--dark .stat-label { color: var(--dark-text); }
+.slide--dark .stat-sub   { color: var(--dark-muted); }
+
+/* Pill / badge */
+.pill {
+  display: inline-flex; align-items: center; gap: 0.6em;
+  padding: 0.5em 1.3em;
+  border-radius: 2em;
+  font-size: 0.82em; font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.pill--dark {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--dark-text);
+}
+.pill--light {
+  background: var(--blue-glow);
+  border: 1px solid rgba(35,108,255,0.15);
+  color: var(--blue);
+}
+.pill-dot {
+  width: 0.5em; height: 0.5em;
+  border-radius: 50%; background: var(--blue-soft);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* Divider */
+.divider {
+  width: 3em; height: 2px;
+  background: var(--blue);
+  border-radius: 1px;
+}
+.slide--dark .divider,
+.slide--warm-dark .divider { background: var(--blue-soft); opacity: 0.6; }
+
+/* Quote block */
+.quote-block {
+  border-left: 3px solid var(--blue-soft);
+  padding-left: 1.5em;
+  margin-top: 1em;
+}
+.quote-attr {
+  font-size: 0.82em; color: var(--ink-40);
+  margin-top: 0.6em; font-style: normal;
+}
+.slide--dark .quote-attr,
+.slide--warm-dark .quote-attr { color: var(--dark-muted); }
+
+/* Brand chips */
+.brand-row {
+  display: flex; gap: 0.8em; flex-wrap: wrap;
+}
+.brand-chip {
+  padding: 0.45em 1.1em;
+  border-radius: 2em;
+  font-size: 0.82em; font-weight: 600;
+  color: #fff;
+}
+.brand-chip--intuit     { background: #236cff; }
+.brand-chip--turbotax   { background: #d52b1e; }
+.brand-chip--quickbooks  { background: #2ca01c; }
+.brand-chip--mailchimp   { background: #ffe01b; color: #241c15; }
+.brand-chip--creditkarma { background: #00854a; }
+.brand-chip--mint        { background: #00a98f; }
+
+/* Arrow connector */
+.arrow-down {
+  display: flex; justify-content: center;
+  padding: 0.5em 0;
+  color: var(--ink-40);
+  font-size: 1.2em;
+}
+.slide--dark .arrow-down { color: var(--dark-muted); }
+
+/* From-To block */
+.from-to {
+  text-align: center;
+  padding: 1.8em 1.5em;
+}
+.from-to-label {
+  font-family: var(--mono); font-size: 0.68em;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--dark-muted);
+  margin-bottom: 0.4em;
+}
+.from-to-text {
+  font-size: 1.15em; font-weight: 600;
+}
+.from-to-arrow {
+  color: var(--blue-soft);
+  font-size: 1.3em;
+  padding: 0.3em 0;
+}
+
+/* Timeline */
+.timeline-step {
+  display: flex; align-items: flex-start; gap: 1.5em;
+}
+.timeline-num {
+  flex-shrink: 0;
+  width: 2.2em; height: 2.2em;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-weight: 600;
+  font-size: 0.88em;
+  background: var(--blue-glow); color: var(--blue);
+  border: 1px solid rgba(35,108,255,0.2);
+}
+.slide--dark .timeline-num {
+  background: rgba(35,108,255,0.15);
+  border-color: rgba(35,108,255,0.25);
+  color: var(--blue-soft);
+}
+.timeline-content { flex: 1; }
+.timeline-title { font-weight: 600; font-size: 1.05em; margin-bottom: 0.25em; }
+.timeline-desc { font-size: 0.92em; color: var(--ink-60); line-height: 1.5; }
+.slide--dark .timeline-desc { color: var(--dark-muted); }
+
+/* Workflow diagram */
+.workflow-row {
+  display: flex; align-items: center; gap: 0.8em;
+  flex-wrap: wrap;
+}
+.workflow-step {
+  padding: 0.6em 1.3em;
+  border-radius: 0.5em;
+  font-size: 0.88em; font-weight: 500;
+  background: rgba(35,108,255,0.08);
+  color: var(--blue);
+  border: 1px solid rgba(35,108,255,0.15);
+}
+.workflow-arrow { color: var(--ink-20); font-size: 1.2em; }
+.slide--dark .workflow-step {
+  background: rgba(35,108,255,0.12);
+  border-color: rgba(35,108,255,0.2);
+  color: var(--blue-soft);
+}
+.slide--dark .workflow-arrow { color: var(--dark-muted); }
+
+/* ═══════ ANIMATIONS ═══════ */
+[data-a] {
+  opacity: 0;
+  animation-duration: 0.65s;
+  animation-timing-function: var(--ease);
+  animation-fill-mode: forwards;
+}
+
+.active [data-a="fade"]       { animation-name: a-fade; }
+.active [data-a="up"]         { animation-name: a-up; }
+.active [data-a="scale"]      { animation-name: a-scale; }
+.active [data-a="left"]       { animation-name: a-left; }
+.active [data-a="right"]      { animation-name: a-right; }
+
+[data-d="1"] { animation-delay: 0.08s; }
+[data-d="2"] { animation-delay: 0.16s; }
+[data-d="3"] { animation-delay: 0.24s; }
+[data-d="4"] { animation-delay: 0.32s; }
+[data-d="5"] { animation-delay: 0.4s; }
+[data-d="6"] { animation-delay: 0.48s; }
+[data-d="7"] { animation-delay: 0.56s; }
+[data-d="8"] { animation-delay: 0.64s; }
+[data-d="9"] { animation-delay: 0.72s; }
+[data-d="10"] { animation-delay: 0.8s; }
+
+@keyframes a-fade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes a-up    { from { opacity: 0; transform: translateY(1.5em); } to { opacity: 1; transform: translateY(0); } }
+@keyframes a-scale { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@keyframes a-left  { from { opacity: 0; transform: translateX(-2em); } to { opacity: 1; transform: translateX(0); } }
+@keyframes a-right { from { opacity: 0; transform: translateX(2em); } to { opacity: 1; transform: translateX(0); } }
+
+/* ═══════ NAVIGATION ═══════ */
+.nav {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3.2em;
+  display: flex; align-items: center; justify-content: center; gap: 1.2em;
+  z-index: 100;
+  background: linear-gradient(transparent, rgba(0,0,0,0.3));
+}
+.nav-btn {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.45);
+  font-size: 1.1em; padding: 0.4em;
+  transition: color 0.2s;
+  font-family: var(--sans);
+}
+.nav-btn:hover { color: rgba(255,255,255,0.9); }
+
+.dots { display: flex; gap: 0.45em; }
+.dot {
+  width: 0.5em; height: 0.5em;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  border: none; padding: 0;
+}
+.dot.on {
+  background: var(--blue);
+  width: 1.6em; border-radius: 0.25em;
+}
+
+.slide-counter {
+  position: absolute; bottom: 1em; right: 6em;
+  font-family: var(--mono); font-size: 0.68em;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ═══════ SPECIAL ELEMENTS ═══════ */
+
+/* Big number in background */
+.bg-number {
+  position: absolute; right: -0.1em; bottom: -0.15em;
+  font-family: var(--serif); font-size: 22em;
+  line-height: 1; opacity: 0.03;
+  pointer-events: none; user-select: none;
+}
+.slide--dark .bg-number { opacity: 0.04; color: #fff; }
+
+/* Subtle gradient accent */
+.accent-line {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--blue-soft), transparent);
+}
+
+/* Key value pair */
+.kv { display: flex; gap: 0.8em; align-items: baseline; }
+.kv-key {
+  font-family: var(--mono); font-size: 0.78em;
+  color: var(--blue); white-space: nowrap;
+  min-width: 10em;
+}
+.kv-val { font-size: 0.95em; }
+.slide--dark .kv-key { color: var(--blue-soft); }
+
+/* Comparison table */
+.compare-row {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  gap: 1.5em; align-items: center;
+  padding: 1.2em 0;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.compare-row:last-child { border-bottom: none; }
+.slide--dark .compare-row { border-color: var(--dark-border); }
+.compare-vs {
+  font-family: var(--mono); font-size: 0.72em;
+  color: var(--ink-40); letter-spacing: 0.1em;
+}
+
+</style>
+</head>
+<body>
+
+<div class="stage">
+<div class="deck" id="deck">
+<div class="track" id="track">
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 1 — THE HOOK (Agreement + Tension)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <div class="accent-line"></div>
+  <div class="stack center-all gap-lg" style="height:100%">
+    <div data-a="fade">
+      <span class="pill pill--dark"><span class="pill-dot"></span> 3X AI-Native Builder Initiative</span>
+    </div>
+    <div data-a="up" data-d="1" class="t-display" style="max-width:14em; text-align:center">
+      What if every designer<br>could ship a prototype<br><span class="c-blue-s">in a single day?</span>
+    </div>
+    <div data-a="up" data-d="3" class="t-subhead c-muted" style="text-align:center; max-width:32em">
+      The 3X Initiative asks 10,000 builders to deliver the impact of 30,000.<br>
+      This is how we make that real for Product Design.
+    </div>
+  </div>
+  <div class="slide-counter" id="counter"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 2 — STRATEGIC CONTEXT (Why Now)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">01 / Strategic context</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue-s mb-sm">The moment</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        Intuit is becoming<br>an AI-native company.<br>
+        <span class="c-blue-s">Designers must keep pace.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-subhead c-muted" style="max-width:24em">
+        CEO Sasan Goodarzi is redefining how Intuit builds products.
+        AI isn't a feature &mdash; it's the foundation. Every team, every function,
+        every prototype must move at AI speed.
+      </div>
+    </div>
+    <div class="stack gap-md center-y" data-a="right" data-d="3">
+      <div class="card stack gap-md">
+        <div>
+          <div class="t-label c-blue-s mb-sm">CEO Priority #1</div>
+          <div class="t-body" style="font-weight:600">Done-For-You Experiences</div>
+          <div class="t-small c-muted" style="margin-top:0.4em">AI acts on behalf of the customer. "It's not about taxes &mdash; it's about the refund."</div>
+        </div>
+        <div class="divider"></div>
+        <div>
+          <div class="t-label c-blue-s mb-sm">The Builder Shift</div>
+          <div class="t-body" style="font-weight:600">Execution to Orchestration</div>
+          <div class="t-small c-muted" style="margin-top:0.4em">From writing every line to designing systems. From managing tasks to directing agents.</div>
+        </div>
+        <div class="divider"></div>
+        <div>
+          <div class="t-label c-blue-s mb-sm">The Competitive Moat</div>
+          <div class="t-body" style="font-weight:600">Data, Not Models</div>
+          <div class="t-small c-muted" style="margin-top:0.4em">LLMs are commodities. 100M customers across tax, accounting, credit, and cash flow is not.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 3 — THE CTO QUOTE (Emotional Beat)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--warm-dark">
+  <div class="stack center-all gap-lg" style="height:100%">
+    <div data-a="fade" class="divider" style="width:4em; background:var(--blue-soft); margin:0 auto;"></div>
+    <div data-a="up" data-d="1" class="t-quote" style="max-width:20em; text-align:center; color:var(--blue-soft);">
+      "The days of clickable UI and leading people through
+      complicated but elegant workflows &mdash; those days are over."
+    </div>
+    <div data-a="fade" data-d="3" class="t-small" style="text-align:center; color:var(--dark-muted);">
+      Alex Balazs, CTO &mdash; November 2025
+    </div>
+    <div data-a="up" data-d="4" class="t-body" style="text-align:center; color:var(--dark-muted); max-width:30em; margin-top:1em;">
+      If the CTO says workflows are changing, designers need tools that let them
+      prototype the new paradigm &mdash; not fight the old toolchain.
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 4 — THE PROBLEM (Concrete Pain)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">02 / The problem</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-warm mb-sm">The friction tax</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        Designers want to prototype.<br>
+        <span class="c-warm">The toolchain blocks them.</span>
+      </div>
+      <div class="stack gap-sm" style="margin-top:1.2em">
+        <div data-a="up" data-d="2">
+          <div class="t-body" style="font-weight:600">Setup takes days, not minutes</div>
+          <div class="t-small c-muted">Node versions, IDS peer deps, PostCSS, Vite &mdash; walls of errors before a single component renders.</div>
+        </div>
+        <div data-a="up" data-d="3">
+          <div class="t-body" style="font-weight:600">IDS breaks in modern tooling</div>
+          <div class="t-small c-muted">Table, Dropdown, TextField have CSS Module hash conflicts. Workarounds aren't documented.</div>
+        </div>
+        <div data-a="up" data-d="4">
+          <div class="t-body" style="font-weight:600">Figma and code drift apart</div>
+          <div class="t-small c-muted">No feedback loop. Code goes stale, designs go stale, prototypes lose credibility.</div>
+        </div>
+        <div data-a="up" data-d="5">
+          <div class="t-body" style="font-weight:600">AI agents don't speak Intuit</div>
+          <div class="t-small c-muted">Claude, Cursor, Copilot guess at IDS props, ignore brand tokens, skip D4D methodology.</div>
+        </div>
+      </div>
+    </div>
+    <div data-a="left" data-d="3" class="stack center-y">
+      <div class="code-block">
+        <div class="line-dim"># A designer's actual first hour</div>
+        <div><span class="line-prompt">$</span> <span class="line-cmd">npm create vite@latest</span></div>
+        <div><span class="line-prompt">$</span> <span class="line-cmd">npm install @ids-ts/button</span></div>
+        <div class="line-err">ERR! peer dep requires react@^18.2.0</div>
+        <div><span class="line-prompt">$</span> <span class="line-cmd">npm install react@18.2.0</span></div>
+        <div><span class="line-prompt">$</span> <span class="line-cmd">npm install @ids-ts/table</span></div>
+        <div class="line-err">ERR! CSS parsing error in LightningCSS</div>
+        <div><span class="line-prompt">$</span> <span class="line-cmd">npm install @ids-ts/text-field</span></div>
+        <div class="line-err">ERR! ::before pseudo-element syntax</div>
+        <div class="line-dim">&nbsp;</div>
+        <div class="line-dim"># 3 hours later: still no prototype</div>
+        <div class="line-dim"># 2-day tasks become 10-day projects</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 5 — THE COST (Stakes)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">03 / The cost</span>
+  <div class="stack center-all gap-lg" style="height:100%">
+    <div data-a="up" class="t-label c-blue-s">What this friction actually costs</div>
+    <div data-a="up" data-d="1" class="t-headline" style="text-align:center; max-width:18em">
+      Every day a designer can't prototype<br>is a day the 3X vision stalls.
+    </div>
+    <div data-a="up" data-d="2" class="grid-3" style="margin-top:2em; max-width:52em; width:100%;">
+      <div class="card stack center-x gap-sm" style="padding:2.5em 2em;">
+        <div class="t-label c-blue-s">Speed</div>
+        <div class="t-body" style="font-weight:600">Prototypes arrive<br>after decisions are made</div>
+        <div class="t-small c-muted">Stakeholders see static mockups. Assumptions go untested. Risk compounds.</div>
+      </div>
+      <div class="card stack center-x gap-sm" style="padding:2.5em 2em;">
+        <div class="t-label c-blue-s">Credibility</div>
+        <div class="t-body" style="font-weight:600">Prototypes don't look<br>like Intuit products</div>
+        <div class="t-small c-muted">Wrong tokens, wrong components, wrong prop conventions. Leadership sees a demo that feels off-brand.</div>
+      </div>
+      <div class="card stack center-x gap-sm" style="padding:2.5em 2em;">
+        <div class="t-label c-blue-s">Dependency</div>
+        <div class="t-body" style="font-weight:600">Designers wait<br>for engineering bandwidth</div>
+        <div class="t-small c-muted">The very bottleneck the 3X Initiative exists to break. Designers should prototype independently.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 6 — THE THESIS (The Reveal)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--blue">
+  <div class="stack center-all gap-lg" style="height:100%">
+    <div data-a="fade" class="pill" style="background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:#fff;">
+      <span class="pill-dot" style="background:#fff;"></span> Introducing
+    </div>
+    <div data-a="scale" data-d="1" class="t-display" style="text-align:center; max-width:14em;">
+      XD Dev<br>Setup Kit
+    </div>
+    <div data-a="up" data-d="3" class="t-subhead" style="text-align:center; max-width:30em; opacity:0.9;">
+      One command. Full IDS parity. AI-powered prototyping for
+      Product Designers &mdash; from problem statement to testable prototype.
+    </div>
+    <div data-a="up" data-d="5" class="code-block" style="max-width:38em; text-align:left; margin-top:1em;">
+      <div><span class="line-prompt">$</span> <span class="line-cmd">git clone xd-dev-setup-kit my-prototype</span></div>
+      <div><span class="line-prompt">$</span> <span class="line-cmd">cd my-prototype && ./scaffold.sh</span></div>
+      <div class="line-ok">Done in ~2 minutes. Ready to build.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 7 — THE EXPERIENCE (How It Works)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">04 / How it works</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue mb-sm">The designer's workflow</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        Four steps.<br>
+        <span class="c-blue">Two are yours.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:24em">
+        You write the PRD and give feedback. Claude Code handles everything else &mdash;
+        design artifacts, component selection, code, and iteration.
+      </div>
+    </div>
+    <div class="stack gap-md center-y" data-a="right" data-d="2">
+      <div class="timeline-step" data-a="up" data-d="3">
+        <div class="timeline-num">1</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Scaffold</div>
+          <div class="timeline-desc">One command installs React, IDS components, brand tokens, Storybook, MSW mocks, and MCP proxy. ~2 minutes.</div>
+        </div>
+      </div>
+      <div class="timeline-step" data-a="up" data-d="4">
+        <div class="timeline-num">2</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Write your PRD</div>
+          <div class="timeline-desc">Fill in docs/PRD.md &mdash; or paste from Google Docs. This is the only file you write.</div>
+        </div>
+      </div>
+      <div class="timeline-step" data-a="up" data-d="5">
+        <div class="timeline-num">3</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Claude Code builds</div>
+          <div class="timeline-desc">AI reads your PRD, generates design.md (flows, stories, acceptance criteria), builds the prototype screen by screen with real IDS components.</div>
+        </div>
+      </div>
+      <div class="timeline-step" data-a="up" data-d="6">
+        <div class="timeline-num">4</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Review and iterate</div>
+          <div class="timeline-desc">See it in your browser, give feedback in plain language, capture to Figma for design review. Repeat until it's right.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 8 — WHAT THE SCAFFOLD DELIVERS
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">05 / What you get</span>
+  <div class="stack gap-md" style="height:100%; justify-content:center;">
+    <div data-a="up" class="t-label c-blue-s mb-sm">One command delivers</div>
+    <div data-a="up" data-d="1" class="t-headline" style="max-width:20em">
+      Everything a designer needs.<br>
+      <span class="c-blue-s">Nothing they don't.</span>
+    </div>
+    <div data-a="up" data-d="2" class="grid-3" style="margin-top:1.5em;">
+      <div class="card stack gap-sm">
+        <div class="t-label c-blue-s">Framework</div>
+        <div class="t-body" style="font-weight:600">React 18 + TypeScript + Vite</div>
+        <div class="t-small c-muted">Production stack, sub-100ms hot reload, the same tools engineering uses.</div>
+      </div>
+      <div class="card stack gap-sm">
+        <div class="t-label c-blue-s">Design System</div>
+        <div class="t-body" style="font-weight:600">68+ IDS components</div>
+        <div class="t-small c-muted">Real @ids-ts packages with correct props &mdash; purpose, priority, automationId. Not approximations.</div>
+      </div>
+      <div class="card stack gap-sm">
+        <div class="t-label c-blue-s">Tokens</div>
+        <div class="t-body" style="font-weight:600">CDN design tokens for 6 brands</div>
+        <div class="t-small c-muted">Intuit, TurboTax, QuickBooks, Mailchimp, Credit Karma, Mint. Light and dark schemes.</div>
+      </div>
+      <div class="card stack gap-sm">
+        <div class="t-label c-blue-s">Documentation</div>
+        <div class="t-body" style="font-weight:600">Storybook with IDS theming</div>
+        <div class="t-small c-muted">Visual component catalog with MCP addon. Claude Code can look up any component before writing code.</div>
+      </div>
+      <div class="card stack gap-sm">
+        <div class="t-label c-blue-s">Mock APIs</div>
+        <div class="t-body" style="font-weight:600">MSW service worker</div>
+        <div class="t-small c-muted">Prototype connected flows without backend dependencies. Standard fetch() &mdash; swap to real APIs later with zero code changes.</div>
+      </div>
+      <div class="card stack gap-sm">
+        <div class="t-label c-blue-s">AI Instructions</div>
+        <div class="t-body" style="font-weight:600">CLAUDE.md agent harness</div>
+        <div class="t-small c-muted">2,400+ lines teaching Claude Code to use IDS correctly, follow D4D methodology, and enforce accessibility.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 9 — IDS DEEP DIVE
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">06 / Design system</span>
+  <div class="split split--60">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue mb-sm">Real IDS, not approximations</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        The same components<br>shipping in TurboTax,<br>QuickBooks, and Mailchimp.
+      </div>
+      <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:26em; margin-top:0.5em;">
+        Tokens from the Intuit CDN. No hardcoded values. Ever.
+        When the design system updates, your prototype updates.
+      </div>
+      <div data-a="up" data-d="3" class="code-block" style="margin-top:1.5em; max-width:26em;">
+        <div class="line-dim">// Correct IDS prop API</div>
+        <div><span class="line-key">purpose</span>=<span class="line-string">"destructive"</span>  <span class="line-dim">// not variant</span></div>
+        <div><span class="line-key">priority</span>=<span class="line-string">"primary"</span>     <span class="line-dim">// not type</span></div>
+        <div><span class="line-key">automationId</span>=<span class="line-string">"..."</span>    <span class="line-dim">// not data-testid</span></div>
+        <div class="line-dim"></div>
+        <div class="line-dim">// Agents learn the real API.</div>
+        <div class="line-dim">// No guessing. No hallucination.</div>
+      </div>
+    </div>
+    <div class="stack gap-sm center-y" data-a="left" data-d="4">
+      <div class="card stack gap-xs" style="padding:1.5em 1.8em;">
+        <div class="t-label c-blue">Vite compatibility</div>
+        <div class="t-small">Components with CSS hash conflicts (Table, Dropdown, TextField) documented with token-styled alternatives.</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em 1.8em;">
+        <div class="t-label c-blue">MCP component lookup</div>
+        <div class="t-small">Platform Context MCP serves 68+ component docs. Agents check documentation before writing code.</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em 1.8em;">
+        <div class="t-label c-blue">Typography + overrides</div>
+        <div class="t-small">H4/H5 for admin, B2/B3 for body. Softer shadows and borders pre-built for dashboard prototypes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 10 — FIGMA BIDIRECTIONAL
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">07 / Figma integration</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue-s mb-sm">Bidirectional design sync</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        Code and Figma<br>stay in sync.<br>
+        <span class="c-blue-s">Automatically.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:24em;">
+        No more "the prototype doesn't match the designs."
+        Capture code to Figma. Read Figma into code. The file is a living
+        conversation &mdash; not a static handoff.
+      </div>
+      <div data-a="up" data-d="3" style="margin-top:1.5em;">
+        <div class="workflow-row">
+          <div class="workflow-step">Code</div>
+          <span class="workflow-arrow">&rarr;</span>
+          <div class="workflow-step">Capture to Figma</div>
+          <span class="workflow-arrow">&rarr;</span>
+          <div class="workflow-step">Apply IDS</div>
+          <span class="workflow-arrow">&rarr;</span>
+          <div class="workflow-step">Designer reviews</div>
+          <span class="workflow-arrow">&rarr;</span>
+          <div class="workflow-step">Update code</div>
+        </div>
+      </div>
+    </div>
+    <div class="stack gap-sm center-y" data-a="right" data-d="3">
+      <div class="card stack gap-xs" style="padding:1.5em 1.8em;">
+        <div class="t-label c-blue-s">3 custom GTMXD skills</div>
+        <div class="t-small" style="font-weight:500;">Apply, Audit, Fix</div>
+        <div class="t-small c-muted">Bind captured UI to IDS Figma library instances, check compliance, resolve issues.</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em 1.8em;">
+        <div class="t-label c-blue-s">7 Figma plugin skills</div>
+        <div class="t-small" style="font-weight:500;">Read, write, generate, connect</div>
+        <div class="t-small c-muted">Capture live UI, translate mockups to code, map components bidirectionally.</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em 1.8em;">
+        <div class="t-label c-blue-s">3 prototyping workflows</div>
+        <div class="t-small" style="font-weight:500;">PRD-only, Code+Figma, PRD+Figma</div>
+        <div class="t-small c-muted">Start from any point. Every workflow ends with IDS-compliant, design-reviewed artifacts.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 11 — MULTI-BRAND
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">08 / Multi-brand</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue mb-sm">One codebase, six brands</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        Same components.<br>
+        <span class="c-blue">Different DNA.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:24em;">
+        Switch brand with a single token import. Colors, typography, spacing &mdash;
+        everything changes automatically. Zero rewrites.
+      </div>
+      <div data-a="up" data-d="3" class="brand-row" style="margin-top:1.5em;">
+        <span class="brand-chip brand-chip--intuit">Intuit</span>
+        <span class="brand-chip brand-chip--turbotax">TurboTax</span>
+        <span class="brand-chip brand-chip--quickbooks">QuickBooks</span>
+        <span class="brand-chip brand-chip--mailchimp">Mailchimp</span>
+        <span class="brand-chip brand-chip--creditkarma">Credit Karma</span>
+        <span class="brand-chip brand-chip--mint">Mint</span>
+      </div>
+    </div>
+    <div class="stack gap-md center-y" data-a="left" data-d="3">
+      <div class="code-block" style="max-width:28em;">
+        <div class="line-dim">// Switch brand in two lines</div>
+        <div>&nbsp;</div>
+        <div class="line-dim">// main.tsx</div>
+        <div><span class="line-key">import</span> <span class="line-string">'./styles/tokens/turbotax.css'</span></div>
+        <div>&nbsp;</div>
+        <div class="line-dim">// App.tsx</div>
+        <div>&lt;<span class="line-key">div</span> <span class="line-flag">data-theme</span>=<span class="line-string">"turbotax"</span></div>
+        <div>     <span class="line-flag">data-colorscheme</span>=<span class="line-string">"light"</span>&gt;</div>
+      </div>
+      <div class="t-small c-muted" style="max-width:28em; margin-top:0.5em;">
+        All six brand tokens downloaded from Intuit CDN during scaffold. Light and dark schemes included. IDS components read tokens at render &mdash; every Button, Badge, and Modal updates instantly.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 12 — AI AGENT INTELLIGENCE
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">09 / AI agents</span>
+  <div class="stack gap-md" style="height:100%; justify-content:center;">
+    <div data-a="up" class="t-label c-blue-s mb-sm">The agent harness</div>
+    <div data-a="up" data-d="1" class="t-headline" style="max-width:22em;">
+      Claude Code doesn't guess.<br>
+      <span class="c-blue-s">It knows Intuit.</span>
+    </div>
+    <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:36em;">
+      CLAUDE.md is a 2,400+ line instruction set &mdash; the difference between an AI
+      that writes generic React and one that builds like an Intuit engineer.
+    </div>
+    <div data-a="up" data-d="3" class="grid-4" style="margin-top:1.2em;">
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Component API</div>
+        <div class="t-small" style="font-weight:500;">IDS props</div>
+        <div class="t-small c-muted">purpose, priority, automationId &mdash; correct API, no hallucination</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Compatibility</div>
+        <div class="t-small" style="font-weight:500;">Vite workarounds</div>
+        <div class="t-small c-muted">Which components work, which need alternatives, and exactly how</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Styling</div>
+        <div class="t-small" style="font-weight:500;">Token system</div>
+        <div class="t-small c-muted">--color-action-standard, --radius-action &mdash; no magic numbers</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Typography</div>
+        <div class="t-small" style="font-weight:500;">Scale rules</div>
+        <div class="t-small c-muted">H4/H5 for admin, B2/B3 for body. Marketing vs. product scale</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Accessibility</div>
+        <div class="t-small" style="font-weight:500;">WCAG 2.1 AA</div>
+        <div class="t-small c-muted">Semantic HTML, focus management, aria patterns &mdash; enforced</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Methodology</div>
+        <div class="t-small" style="font-weight:500;">D4D workflow</div>
+        <div class="t-small c-muted">Problem first. Hypothesis. LOFAs. Build to test, not to ship</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Design Sync</div>
+        <div class="t-small" style="font-weight:500;">Figma bidirectional</div>
+        <div class="t-small c-muted">Capture, apply IDS, audit compliance &mdash; automated loop</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Content</div>
+        <div class="t-small" style="font-weight:500;">Intuit voice</div>
+        <div class="t-small c-muted">Oxford comma, sentence case, "select" not "click" &mdash; on brand</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 13 — ACCESSIBILITY
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">10 / Accessibility</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue mb-sm">Built in, not bolted on</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        WCAG 2.1 AA is<br>
+        <span class="c-blue">automatic.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:24em;">
+        Every IDS component is accessible by default. The CLAUDE.md agent harness
+        enforces accessibility patterns in generated code. Designers don't think
+        about accessibility compliance &mdash; they get it.
+      </div>
+    </div>
+    <div class="stack gap-sm center-y" data-a="right" data-d="3">
+      <div class="grid-2" style="gap:1.2em;">
+        <div class="card stack gap-xs" style="padding:1.5em;">
+          <div class="t-small" style="font-weight:600">Semantic HTML</div>
+          <div class="t-small c-muted">button for actions, a for navigation, landmarks. Never div onClick.</div>
+        </div>
+        <div class="card stack gap-xs" style="padding:1.5em;">
+          <div class="t-small" style="font-weight:600">Keyboard navigation</div>
+          <div class="t-small c-muted">Logical tab order, focus traps in modals, skip-to-content links.</div>
+        </div>
+        <div class="card stack gap-xs" style="padding:1.5em;">
+          <div class="t-small" style="font-weight:600">Contrast and visibility</div>
+          <div class="t-small c-muted">4.5:1 text contrast. 3:1 focus indicators. 44x44px touch targets.</div>
+        </div>
+        <div class="card stack gap-xs" style="padding:1.5em;">
+          <div class="t-small" style="font-weight:600">Motion and preferences</div>
+          <div class="t-small c-muted">prefers-reduced-motion respected. aria-live for updates. Every input labeled.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 14 — MCP ECOSYSTEM
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">11 / MCP ecosystem</span>
+  <div class="stack gap-md" style="height:100%; justify-content:center;">
+    <div data-a="up" class="t-label c-blue-s mb-sm">Connected intelligence</div>
+    <div data-a="up" data-d="1" class="t-headline" style="max-width:22em;">
+      13+ MCP servers.<br>
+      <span class="c-blue-s">One unified agent experience.</span>
+    </div>
+    <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:36em;">
+      The kit connects Claude Code to Intuit's internal tools &mdash; design system docs,
+      Jira, Glean knowledge base, content design guidelines, Figma, and more.
+      The agent doesn't just write code. It understands context.
+    </div>
+    <div data-a="up" data-d="3" class="grid-4" style="margin-top:1.5em;">
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Design System</div>
+        <div class="t-small" style="font-weight:500;">Platform Context MCP</div>
+        <div class="t-small c-muted">68+ IDS component docs</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Storybook</div>
+        <div class="t-small" style="font-weight:500;">MCP Proxy</div>
+        <div class="t-small c-muted">Stories + code examples</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Design</div>
+        <div class="t-small" style="font-weight:500;">Figma MCP</div>
+        <div class="t-small c-muted">Read/write canvas</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Content</div>
+        <div class="t-small" style="font-weight:500;">Content Design MCP</div>
+        <div class="t-small c-muted">Voice, tone, word list</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Knowledge</div>
+        <div class="t-small" style="font-weight:500;">Glean MCP</div>
+        <div class="t-small c-muted">Internal knowledge search</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Project Mgmt</div>
+        <div class="t-small" style="font-weight:500;">Jira MCP</div>
+        <div class="t-small c-muted">Ticket context + updates</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Auth</div>
+        <div class="t-small" style="font-weight:500;">SSO + EIAM</div>
+        <div class="t-small c-muted">8hr cached sessions</div>
+      </div>
+      <div class="card stack gap-xs" style="padding:1.5em;">
+        <div class="t-label c-blue-s" style="font-size:0.65em;">Compliance</div>
+        <div class="t-small" style="font-weight:500;">Policy Engine MCP</div>
+        <div class="t-small c-muted">Security + policy checks</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 15 — STORYBOOK + MSW
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">12 / Documentation + mocking</span>
+  <div class="split">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue mb-sm">Storybook</div>
+      <div data-a="up" data-d="1" class="t-headline" style="font-size:2.4em;">
+        Every component<br>documented, testable,<br>and handoff-ready.
+      </div>
+      <div data-a="up" data-d="2" class="stack gap-xs" style="margin-top:1em;">
+        <div class="t-small"><span style="font-weight:600">Visual catalog</span> &mdash; browse components with interactive controls</div>
+        <div class="t-small"><span style="font-weight:600">IDS theming</span> &mdash; stories render with real Intuit tokens</div>
+        <div class="t-small"><span style="font-weight:600">MCP addon</span> &mdash; Claude Code generates and previews stories</div>
+        <div class="t-small"><span style="font-weight:600">Autodocs</span> &mdash; prop tables from TypeScript types</div>
+      </div>
+    </div>
+    <div class="stack gap-md center-y" data-a="right" data-d="3">
+      <div data-a="up" data-d="3" class="t-label c-blue mb-sm">Mock Service Worker</div>
+      <div data-a="up" data-d="4" class="t-headline" style="font-size:2.4em;">
+        Prototype connected<br>flows without backends.
+      </div>
+      <div data-a="up" data-d="5" class="stack gap-xs" style="margin-top:1em;">
+        <div class="t-small"><span style="font-weight:600">Browser-level intercept</span> &mdash; standard fetch(), no special imports</div>
+        <div class="t-small"><span style="font-weight:600">Realistic delays</span> &mdash; simulate network latency for loading states</div>
+        <div class="t-small"><span style="font-weight:600">Zero migration</span> &mdash; remove one import to connect real APIs</div>
+        <div class="t-small"><span style="font-weight:600">Pre-configured</span> &mdash; handlers.ts + browser.ts ready in scaffold</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 16 — THE ROLE EVOLUTION
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--warm-dark">
+  <span class="slide-num">13 / The shift</span>
+  <div class="stack center-all gap-lg" style="height:100%;">
+    <div data-a="up" class="t-label c-blue-s">Builder role evolution</div>
+    <div data-a="up" data-d="1" class="t-headline" style="text-align:center; max-width:20em;">
+      This kit operationalizes the 3X vision<br>
+      <span class="c-blue-s">for designers.</span>
+    </div>
+    <div data-a="up" data-d="2" class="grid-3" style="max-width:52em; margin-top:1.2em;">
+      <div class="card from-to">
+        <div class="from-to-label">From</div>
+        <div class="from-to-text">Writing every line</div>
+        <div class="from-to-arrow">&darr;</div>
+        <div class="from-to-label">To</div>
+        <div class="from-to-text c-blue-s">Designing systems</div>
+      </div>
+      <div class="card from-to">
+        <div class="from-to-label">From</div>
+        <div class="from-to-text">Managing tasks</div>
+        <div class="from-to-arrow">&darr;</div>
+        <div class="from-to-label">To</div>
+        <div class="from-to-text c-blue-s">Orchestrating outcomes</div>
+      </div>
+      <div class="card from-to">
+        <div class="from-to-label">From</div>
+        <div class="from-to-text">Manual asset creation</div>
+        <div class="from-to-arrow">&darr;</div>
+        <div class="from-to-label">To</div>
+        <div class="from-to-text c-blue-s">Directing AI-driven design</div>
+      </div>
+    </div>
+    <div data-a="up" data-d="4" class="quote-block" style="max-width:32em; margin-top:1.2em; border-color:var(--blue-soft);">
+      <div class="t-small" style="font-style:italic; color:var(--dark-text); opacity:0.9;">
+        "Fall in love with the customer's problem, not with your solution to it."
+      </div>
+      <div class="quote-attr" style="color:var(--dark-muted);">Sasan Goodarzi, CEO &mdash; February 2026</div>
+    </div>
+    <div data-a="fade" data-d="5" class="t-small" style="text-align:center; max-width:34em; color:var(--dark-muted);">
+      This kit lets designers fall in love with the problem. The toolchain handles the rest.
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 17 — BY THE NUMBERS
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--light">
+  <span class="slide-num">14 / Impact</span>
+  <div class="stack center-all gap-lg" style="height:100%;">
+    <div data-a="up" class="t-label c-blue">By the numbers</div>
+    <div data-a="up" data-d="1" class="t-headline" style="text-align:center">What the kit delivers</div>
+    <div data-a="up" data-d="2" class="grid-5" style="max-width:60em; margin-top:1.5em;">
+      <div class="card stat">
+        <div class="stat-num">~2m</div>
+        <div class="stat-label">Setup time</div>
+        <div class="stat-sub">(was days)</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-num">68+</div>
+        <div class="stat-label">IDS components</div>
+        <div class="stat-sub">ready to use</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Intuit brands</div>
+        <div class="stat-sub">one codebase</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Figma skills</div>
+        <div class="stat-sub">bidirectional sync</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-num">13+</div>
+        <div class="stat-label">MCP servers</div>
+        <div class="stat-sub">connected context</div>
+      </div>
+    </div>
+    <div data-a="up" data-d="4" class="t-body c-muted" style="text-align:center; max-width:36em; margin-top:1em;">
+      Designers go from problem statement to testable prototype without waiting
+      for engineering. Full design-system parity and accessibility compliance &mdash; every time.
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 18 — THE VISION (Where This Goes)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--dark">
+  <span class="slide-num">15 / Vision</span>
+  <div class="split split--55">
+    <div class="stack gap-md center-y">
+      <div data-a="up" class="t-label c-blue-s mb-sm">Beyond the scaffold</div>
+      <div data-a="up" data-d="1" class="t-headline">
+        This isn't a template.<br>
+        <span class="c-blue-s">It's infrastructure.</span>
+      </div>
+      <div data-a="up" data-d="2" class="t-body c-muted" style="max-width:24em;">
+        Every prototype built with this kit compounds organizational knowledge.
+        Shared components. Shared patterns. Shared agent instructions.
+        The more teams use it, the better it gets.
+      </div>
+    </div>
+    <div class="stack gap-md center-y" data-a="right" data-d="3">
+      <div class="timeline-step" data-a="up" data-d="4">
+        <div class="timeline-num">1</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Today &mdash; Individual designers</div>
+          <div class="timeline-desc">One designer, one prototype, full IDS parity. Proves the workflow works.</div>
+        </div>
+      </div>
+      <div class="timeline-step" data-a="up" data-d="5">
+        <div class="timeline-num">2</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Next &mdash; Team adoption</div>
+          <div class="timeline-desc">Shared component libraries and patterns across a design team. Knowledge compounds through CLAUDE.md.</div>
+        </div>
+      </div>
+      <div class="timeline-step" data-a="up" data-d="6">
+        <div class="timeline-num">3</div>
+        <div class="timeline-content">
+          <div class="timeline-title">Future &mdash; Organization-wide platform</div>
+          <div class="timeline-desc">Standardized prototyping across Product Design. Every prototype is IDS-compliant, accessible, and Figma-synced by default.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     SLIDE 19 — THE ASK (CTA)
+     ═══════════════════════════════════════════════ -->
+<div class="slide slide--blue">
+  <div class="stack center-all gap-lg" style="height:100%;">
+    <div data-a="scale" data-d="0" class="t-display" style="text-align:center; max-width:12em;">
+      Clone it.<br>
+      Scaffold it.<br>
+      Ship it.
+    </div>
+    <div data-a="up" data-d="3" class="t-subhead" style="text-align:center; max-width:28em; opacity:0.9;">
+      Open for all Intuit Product Designers.<br>
+      Real IDS. Real AI agents. Real prototypes.
+    </div>
+    <div data-a="up" data-d="5" class="code-block" style="max-width:36em; text-align:left;">
+      <div><span class="line-prompt">$</span> <span class="line-cmd">git clone &lt;repo-url&gt; my-prototype</span></div>
+      <div><span class="line-prompt">$</span> <span class="line-cmd">cd my-prototype && ./scaffold.sh</span></div>
+      <div><span class="line-prompt">$</span> <span class="line-cmd">npm run dev</span></div>
+    </div>
+    <div data-a="fade" data-d="7" class="t-small" style="text-align:center; opacity:0.5; margin-top:2em;">
+      Design Engineering &middot; GTM Tech XD &middot; Intuit &middot; 2026
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /track -->
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prev" aria-label="Previous slide">&larr;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="next" aria-label="Next slide">&rarr;</button>
+</div>
+<div class="slide-counter" id="counter"></div>
+
+</div><!-- /deck -->
+</div><!-- /stage -->
+
+<script>
+(function(){
+  const track  = document.getElementById('track');
+  const dots   = document.getElementById('dots');
+  const counter= document.getElementById('counter');
+  const slides = document.querySelectorAll('.slide');
+  const N      = slides.length;
+  let cur      = 0;
+
+  // Build dots
+  for(let i=0;i<N;i++){
+    const d = document.createElement('button');
+    d.className = 'dot';
+    d.setAttribute('aria-label', 'Go to slide '+(i+1));
+    d.addEventListener('click', ()=> go(i));
+    dots.appendChild(d);
+  }
+
+  function go(n){
+    cur = Math.max(0, Math.min(N-1, n));
+    track.style.transform = `translateX(-${cur*100}%)`;
+
+    // Update dots
+    dots.querySelectorAll('.dot').forEach((d,i)=>{
+      d.classList.toggle('on', i===cur);
+    });
+
+    // Update counter
+    counter.textContent = `${cur+1} / ${N}`;
+
+    // Reset + trigger animations
+    slides.forEach((s,i)=>{
+      s.classList.toggle('active', i===cur);
+      if(i===cur){
+        s.querySelectorAll('[data-a]').forEach(el=>{
+          el.style.animation='none';
+          el.offsetHeight;
+          el.style.animation='';
+        });
+      }
+    });
+  }
+
+  // Init
+  go(0);
+
+  // Keyboard
+  document.addEventListener('keydown', e=>{
+    if(e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); go(cur+1); }
+    if(e.key==='ArrowLeft')  { e.preventDefault(); go(cur-1); }
+    if(e.key==='Home')       { e.preventDefault(); go(0); }
+    if(e.key==='End')        { e.preventDefault(); go(N-1); }
+  });
+
+  // Nav buttons
+  document.getElementById('prev').addEventListener('click', ()=> go(cur-1));
+  document.getElementById('next').addEventListener('click', ()=> go(cur+1));
+
+  // Expose for external control
+  window.go = go;
+})();
+</script>
+
+</body>
+</html>

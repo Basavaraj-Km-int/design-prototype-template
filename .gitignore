@@ -1,2 +1,14 @@
 2026-03-25-*.txt
 .cursor/
+
+# OS / editor cruft
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
+
+# Playwright MCP session artifacts
+.playwright-mcp/

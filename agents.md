@@ -172,3 +172,37 @@ git log --oneline -10                # Recent history
 | Windsurf | `.windsurfrules` | Project root |
 | GitHub Copilot | `.github/copilot-instructions.md` | Repo root |
 | Bolt / v0 / Lovable | Paste sections 1-5 into initial prompt | N/A |
+
+---
+
+## Learned User Preferences
+
+- For Google Drive, Slides, or other sign-in–sensitive sites, do not assume the IDE Simple Browser or the default isolated Chrome DevTools MCP profile is logged in; use approaches that match how the user actually authenticates (e.g. official `--autoConnect` flow, export/share, or explicit tool choice).
+- For browser automation: prefer a single MCP server per task (avoid logged-out or duplicate Chrome instances), and match upstream defaults like the official Chrome DevTools MCP README pattern (`npx chrome-devtools-mcp@latest`) unless the user asks for custom flags.
+- When building on top of open-source code, treat "make it ours" as a find-and-replace rebrand (package names, imports, CSS class prefixes, hook names, npm scope, registry) and keep runtime logic intact — do not rewrite battle-tested code from scratch, and remove every trace of the source tool's name throughout the codebase once rebranding is requested.
+- When the user gives explicit UX/UI requirements (specific control type like sliders vs dropdowns, panel position, IDS-token values vs free input, mode toggles), implement them exactly as stated and do not silently substitute alternative patterns or re-litigate decisions already made.
+- Do not pre-write or update docs/files until gathered information is presented to the user first; fetch and show results before making edits.
+- When the user interrupts with new context mid-task, absorb the input and continue working on the original task without abandoning in-progress work.
+- CLAUDE.md and AGENTS.md should stay lean (200–250 lines optimal); extract detailed content into external rule files and reference them, and keep agent configuration agent-agnostic (Claude Code, Cursor, Windsurf, Copilot, etc.).
+- Prototype code must meet expert frontend engineering standards at Intuit — not throwaway prototype code but production-quality IDS-compliant UI that designers can hand off to engineers directly.
+- When the user says "do it non-stop" / "I will review once you're done", or as standing rule ("always make things perfect"), run end-to-end without intermediate confirmation or "should I…" prompts.
+- For strategic, multi-step work, prefer plan mode first and write mandatory plan documents that capture decisions for later reference — iterate with the user before implementing.
+- Commit meaningful checkpoints frequently and verify in browser/dev server before commit or push so work can be reverted and broken UI is not landed.
+- Iterate on story/slide/design artifacts in versioned drafts (v1, v2, v3, v4…) rather than overwriting; do not let weak source-doc writing influence the quality of new content.
+
+---
+
+## Learned Workspace Facts
+
+- Workspace root: `/Users/bkm01/code/xd-dev-setup-kit`; default Git remote `origin` is `https://github.com/Basavaraj-Km-int/xd-dev-setup-kit.git`. The aspiration of this codebase is "Product Builder OS" — an agentic product development operating system, not just a developer setup kit.
+- `docs/drive-presentation-1z2nnXD9.md` documents Drive presentation export attempts, access blockers, and Chrome MCP notes for that deck; `docs/assets/SOC_FY26_Q3.pdf` is the 66-page "State of the Company FY26 Q3" deck captured via Cmd+P (Download was disabled in Drive).
+- Related local repos: Figsor MCP at `/Users/bkm01/code/figsor`, a personal/extended fork at `/Users/bkm01/code/xd-dev-setup-kit-personal` (extra agents/hooks/skills not yet promoted), and the renamed/evolved `/Users/bkm01/code/product-builder-os/` (active Product Builder OS work; original `xd-dev-setup-kit` kept as-is).
+- Chrome DevTools MCP `--autoConnect` on macOS may time out on CDP protocol calls even when connection succeeds; the `DevToolsActivePort` WebSocket endpoint also hangs pending Chrome permission approval.
+- Target audience for this solution: SVPs, VPs, Directors of Product/Design/Engineering at Intuit. "Product builders" = Designers, PMs, Frontend/Backend Engineers initially; future scope expands to any Intuit team that builds (Customer Success, Growth, etc.).
+- User has built Intuit-specific agent ecosystem tools (`ids-react-plugin`, `design-system-mcp`, content design guidelines MCP, custom skills and commands) planned for distribution through Intuit internal marketplaces.
+- Intuit Tinker is a purpose-built, IDS-aware UI-tweak panel built as standalone `@intuit/tinker` inside `/Users/bkm01/code/product-builder-os/` (planned split to its own repo with a separate Cursor workspace from Product Builder OS for context/performance). It is a carbon-copy rebrand of dialkit (panel/sliders/variants) and react-grab (element selection) patterns under Intuit naming, with no traces of source tool names left in code, packages, registry, or CSS prefixes; dialkit itself has been removed from this project (user tests dialkit separately). Differentiator vs. `claude.ai/design`: agent pre-generates the full control tree for the current page (sections → elements) on load, exposes an IDS Strict / Freeform mode toggle, launches from the bottom-right, and sends IDS tokens/CSS variables/component conventions to Claude Code/Cursor so generated code reaches 100% IDS parity. Comparison tables must include dialkit, react-grab, agentation, and `claude.ai/design` with a "gaps Tinker closes" column. Project Wallet (`https://github.intuit.com/pages/rluke1/Project-Wallet/`) is a key internal competitive reference for variations, modules, and user-testing patterns.
+- Chrome profile **Chrome-Agent-Profile** (shown in Chrome’s profile picker) maps on disk to **`Default`**: `~/Library/Application Support/Google/Chrome/Default` — not a separate `Chrome-Agent-Profile` folder. Use `--profile-directory=Default` from CLI; for DevTools MCP `--autoConnect`, use your logged-in Chrome for that profile, not Cursor’s isolated browser/Chromium.
+- User's personal Intuit GitHub: `https://github.com/Basavaraj-Km-int` (host for personal/Product Builder OS repos).
+- Reference projects to study/align with: PM Operating System (`github.intuit.com/htiwari1/PM-Operating-System`) and product-thought-partner (`github.intuit.com/platformexps-patterns/devassist-plugins-registry/tree/master/product-thought-partner`).
+- Distribution model for Product Builder OS = cloneable repo + capability plugin (modeled after the Intuit Observability Capability Plugin v1 launch pattern: proof packet doc + demo recording).
+- Product Builder OS targets four workflows: W1 Zero-to-One (PRD only, no Figma, no codebase), W2 Figma-to-Code (no codebase), W3 Code-First Iteration (no Figma), W4 Existing Codebase Enhancement (fork → branch → design+code → PR back to production).

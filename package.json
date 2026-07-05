@@ -1,0 +1,11 @@
+{
+  "name": "xd-dev-setup-kit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture:drive-slides": "node scripts/capture-drive-slides.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.49.0"
+  }
+}
